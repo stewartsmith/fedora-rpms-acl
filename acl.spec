@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.23
-Release: 6
+Release: 7
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
@@ -17,7 +17,7 @@ manipulating access control lists.
 
 %package -n libacl
 Summary: Dynamic library for access control list support.
-Copyright: LGPL
+License: LGPL
 Group: System Environment/Libraries
 Prereq: /sbin/ldconfig
 
@@ -28,7 +28,7 @@ control lists.
 
 %package -n libacl-devel
 Summary: Access control list static libraries and headers.
-Copyright: LGPL
+License: LGPL
 Group: Development/Libraries
 Requires: libacl, libattr-devel
 
