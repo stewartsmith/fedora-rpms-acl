@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.7
-Release: 2
+Release: 2.1.1
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
@@ -100,6 +100,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Tue Aug  5 2003 Elliot Lee <sopwith@redhat.com> 2.2.7-2
 - Fix libtool invocation
 
