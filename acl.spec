@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.23
-Release: 3
+Release: 4
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
@@ -30,7 +30,7 @@ control lists.
 Summary: Access control list static libraries and headers.
 Copyright: LGPL
 Group: Development/Libraries
-Requires: libacl
+Requires: libacl, libattr-devel
 
 %description -n libacl-devel
 This package contains static libraries and header files needed to develop
@@ -105,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Fri Sep 10 2004 Stephen C. Tweedie <sct@redhat.com> 2.2.23-4
+- libacl-devel Requires: libattr-devel for libattr.la
+
 * Fri Sep 10 2004 Stephen C. Tweedie <sct@redhat.com> 2.2.23-3
 - Requires libtool >= 1.5 for building
 
