@@ -1,11 +1,13 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.0.11
-Release: 2
+Version: 2.2.3
+Release: 1
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel
-Source: acl-2.0.11.src.tar.gz
-Copyright: GPL
+Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
+Patch: acl-2.2.3-multilib.patch
+BuildRequires: autoconf
+License: GPL
 Group: System Environment/Base
 URL: http://acl.bestbits.at/
 
@@ -36,14 +38,18 @@ programs which make use of the access control list programming interface
 defined in POSIX 1003.1e draft standard 17.
 
 %prep
-%setup
+%setup -q
+%patch -p1 -b .multilib
+autoconf
 
 %build
 touch .census
-./configure
+# acl abuses libexecdir
+%configure --libdir=/%{_lib} --libexecdir=%{_libdir}
 make
 
 %install
+rm -rf $RPM_BUILD_ROOT
 DIST_ROOT="$RPM_BUILD_ROOT"
 DIST_INSTALL=`pwd`/install.manifest
 DIST_INSTALL_DEV=`pwd`/install-dev.manifest
@@ -52,6 +58,9 @@ export DIST_ROOT DIST_INSTALL DIST_INSTALL_DEV DIST_INSTALL_LIB
 make install DIST_MANIFEST="$DIST_INSTALL"
 make install-dev DIST_MANIFEST="$DIST_INSTALL_DEV"
 make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
+
+chmod +x ${RPM_BUILD_ROOT}/%{_lib}/libacl.so.*
+
 files()
 {
 	sort | uniq | awk ' 
@@ -67,9 +76,9 @@ $1 == "f" { if (match ($6, "/usr/share/man") || match ($6, "/usr/share/doc/acl")
 $1 == "l" { if (match ($3, "/usr/share/man") || match ($3, "/usr/share/doc/acl"))
 		printf ("%%%%doc ");
 	    if (match ($3, "/usr/share/man"))
-		printf ("%attr(0777,root,root) %s*\n", $3);
+		printf ("%%%%attr(0777,root,root) %s*\n", $3);
 	    else
-		printf ("%attr(0777,root,root) %s\n", $3); }'
+		printf ("%%%%attr(0777,root,root) %s\n", $3); }'
 }
 set +x
 files < "$DIST_INSTALL" > files.rpm
@@ -78,7 +87,7 @@ files < "$DIST_INSTALL_LIB" > fileslib.rpm
 set -x
 
 %clean
-[ "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD_ROOT
 
 %post -n libacl -p /sbin/ldconfig
 
@@ -91,6 +100,22 @@ set -x
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Tue Jan 28 2003 Michael K. Johnson <johnsonm@redhat.com> 2.2.3-1
+- udpate/rebuild
+
+* Sat Jan  4 2003 Jeff Johnson <jbj@redhat.com> 2.0.11-7
+- set execute bits on library so that requires are generated.
+
+* Tue Nov 19 2002 Elliot Lee <sopwith@redhat.com> 2.0.11-5
+- Correct patch in previous fix so that shared libraries go in /lib* 
+  instead of /usr/lib*
+
+* Tue Nov 19 2002 Elliot Lee <sopwith@redhat.com> 2.0.11-4
+- Fix multilibbing
+
+* Wed Sep 11 2002 Than Ngo <than@redhat.com> 2.0.11-3
+- Added fix to install libs in correct directory on 64bit machine
+
 * Thu Aug 08 2002 Michael K. Johnson <johnsonm@redhat.com> 2.0.11-2
 - Made the package only own the one directory that is unique to it:
   /usr/include/acl
