@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.0.11
-Release: 1
+Release: 2
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel
 Source: acl-2.0.11.src.tar.gz
@@ -36,17 +36,11 @@ programs which make use of the access control list programming interface
 defined in POSIX 1003.1e draft standard 17.
 
 %prep
-if [ -f .census ] ; then
-   if [ ! -d ${RPM_PACKAGE_NAME}-${RPM_PACKAGE_VERSION} ] ; then
-      ln -s . ${RPM_PACKAGE_NAME}-${RPM_PACKAGE_VERSION}
-   fi
-else
 %setup
-touch .census
-./configure
-fi
 
 %build
+touch .census
+./configure
 make
 
 %install
@@ -61,7 +55,9 @@ make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
 files()
 {
 	sort | uniq | awk ' 
-$1 == "d" { printf ("%%%%dir %%%%attr(%s,%s,%s) %s\n", $2, $3, $4, $5); } 
+$1 == "d" { 
+	    if (match ($6, "/usr/include/acl"))
+		printf ("%%%%dir %%%%attr(%s,%s,%s) %s\n", $2, $3, $4, $5); } 
 $1 == "f" { if (match ($6, "/usr/share/man") || match ($6, "/usr/share/doc/acl"))
 		printf ("%%%%doc ");
 	    if (match ($6, "/usr/share/man"))
@@ -95,6 +91,10 @@ set -x
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Thu Aug 08 2002 Michael K. Johnson <johnsonm@redhat.com> 2.0.11-2
+- Made the package only own the one directory that is unique to it:
+  /usr/include/acl
+
 * Mon Jun 24 2002 Michael K. Johnson <johnsonm@redhat.com> 2.0.11-1
 - Initial Red Hat package
   Made as few changes as possible relative to upstream packaging to
