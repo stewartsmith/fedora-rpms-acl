@@ -61,7 +61,7 @@ make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
 
 # Buahhh, ugly hack, but it works.
 perl -pi -e 's|^f 644|f 755|' $DIST_INSTALL_LIB
-chmod 755 $RPM_BUILD_ROOT/lib/*
+chmod 755 $RPM_BUILD_ROOT/%{_lib}/*
 
 files()
 {
