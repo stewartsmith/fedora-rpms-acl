@@ -1,12 +1,12 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.2.7
-Release: 6
+Version: 2.2.23
+Release: 1
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
 Patch0: acl-2.2.3-multilib.patch
-BuildRequires: autoconf
+BuildRequires: autoconf, libtool, gettext
 License: GPL
 Group: System Environment/Base
 URL: http://acl.bestbits.at/
@@ -104,6 +104,12 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Thu Aug 19 2004 Phil Knirsch <pknirsch@redhat.com> 2.2.23-1
+- Update to latest upstream version.
+
+* Sun Aug  8 2004 Alan Cox <alan@redhat.com> 2.2.7-7
+- Close bug #125300 (Steve Grubb: build requires libtool,gettext)
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
