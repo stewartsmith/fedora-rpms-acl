@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.23
-Release: 1
+Release: 2
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
@@ -59,7 +59,8 @@ make install DIST_MANIFEST="$DIST_INSTALL" PKG_DOC_DIR=%{_docdir}/acl-%{version}
 make install-dev DIST_MANIFEST="$DIST_INSTALL_DEV"
 make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
 
-chmod +x ${RPM_BUILD_ROOT}/%{_lib}/libacl.so.*
+# Buahhh, ugly hack, but it works.
+perl -pi -e 's|^f 644|f 755|' $DIST_INSTALL_LIB
 
 files()
 {
@@ -104,6 +105,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Thu Aug 19 2004 Phil Knirsch <pknirsch@redhat.com> 2.2.23-2
+- Make libacl.so.* executable.
+
 * Thu Aug 19 2004 Phil Knirsch <pknirsch@redhat.com> 2.2.23-1
 - Update to latest upstream version.
 
