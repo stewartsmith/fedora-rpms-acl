@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.7
-Release: 2.1.1
+Release: 5
 BuildRoot: %{_tmppath}/%{name}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
@@ -55,7 +55,7 @@ DIST_INSTALL=`pwd`/install.manifest
 DIST_INSTALL_DEV=`pwd`/install-dev.manifest
 DIST_INSTALL_LIB=`pwd`/install-lib.manifest
 export DIST_ROOT DIST_INSTALL DIST_INSTALL_DEV DIST_INSTALL_LIB
-make install DIST_MANIFEST="$DIST_INSTALL"
+make install DIST_MANIFEST="$DIST_INSTALL" PKG_DOC_DIR=%{_docdir}/acl-%{version}
 make install-dev DIST_MANIFEST="$DIST_INSTALL_DEV"
 make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
 
@@ -94,12 +94,23 @@ rm -rf $RPM_BUILD_ROOT
 %postun -n libacl -p /sbin/ldconfig
 
 %files -f files.rpm
+%defattr(-,root,root)
+%doc %{_docdir}/acl-%{version}
 
 %files -n libacl-devel -f filesdevel.rpm
+%defattr(-,root,root)
+/usr/include/acl
 
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Wed Mar 31 2004 Stephen C. Tweedie <sct@redhat.com> 2.2.7-5
+- Add missing %defattr
+
+* Tue Mar 30 2004 Stephen C. Tweedie <sct@redhat.com> 2.2.7-3
+- Add /usr/include/acl to files manifest
+- Fix location of doc files, add main doc dir to files manifest
+
 * Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
