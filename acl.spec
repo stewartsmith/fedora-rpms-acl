@@ -1,11 +1,11 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.2.3
-Release: 1
+Version: 2.2.7
+Release: 2
 BuildRoot: %{_tmppath}/%{name}-root
-BuildRequires: libattr-devel
+BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
-Patch: acl-2.2.3-multilib.patch
+Patch0: acl-2.2.3-multilib.patch
 BuildRequires: autoconf
 License: GPL
 Group: System Environment/Base
@@ -39,14 +39,14 @@ defined in POSIX 1003.1e draft standard 17.
 
 %prep
 %setup -q
-%patch -p1 -b .multilib
+%patch0 -p1 -b .multilib
 autoconf
 
 %build
 touch .census
 # acl abuses libexecdir
 %configure --libdir=/%{_lib} --libexecdir=%{_libdir}
-make
+make LIBTOOL="libtool --tag=CC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -100,6 +100,15 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Tue Aug  5 2003 Elliot Lee <sopwith@redhat.com> 2.2.7-2
+- Fix libtool invocation
+
+* Tue Jun  3 2003 Stephen C. Tweedie <sct@redhat.com> 2.2.7-1
+- Update to acl-2.2.7
+
+* Wed Mar 26 2003 Michael K. Johnson <johnsonm@redhat.com> 2.2.3-2
+- include patch from Jay Berkenbilt to print better error messages
+
 * Tue Jan 28 2003 Michael K. Johnson <johnsonm@redhat.com> 2.2.3-1
 - udpate/rebuild
 
