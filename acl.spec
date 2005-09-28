@@ -1,8 +1,8 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.23
-Release: 8
-BuildRoot: %{_tmppath}/%{name}-root
+Release: 9
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
 Patch0: acl-2.2.3-multilib.patch
@@ -63,6 +63,9 @@ make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
 perl -pi -e 's|^f 644|f 755|' $DIST_INSTALL_LIB
 chmod 755 $RPM_BUILD_ROOT/%{_lib}/*
 
+# get rid of *.la files
+rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
+
 files()
 {
 	sort | uniq | awk ' 
@@ -84,7 +87,7 @@ $1 == "l" { if (match ($3, "/usr/share/man") || match ($3, "/usr/share/doc/acl")
 }
 set +x
 files < "$DIST_INSTALL" > files.rpm
-files < "$DIST_INSTALL_DEV" > filesdevel.rpm
+files < "$DIST_INSTALL_DEV" | grep -v libacl.la > filesdevel.rpm
 files < "$DIST_INSTALL_LIB" > fileslib.rpm
 set -x
 
@@ -97,7 +100,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f files.rpm
 %defattr(-,root,root)
-%doc %{_docdir}/acl-%{version}
 
 %files -n libacl-devel -f filesdevel.rpm
 %defattr(-,root,root)
@@ -106,6 +108,10 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Wed Sep 28 2005 Than Ngo <than@redhat.com> 2.2.23-9
+- get rid of *.la files
+- remove duplicate doc files
+
 * Wed Feb  9 2005 Stephen C. Tweedie <sct@redhat.com> 2.2.23-6
 - Rebuild
 
