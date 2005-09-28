@@ -1,10 +1,10 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.2.23
-Release: 9
+Version: 2.2.31
+Release: 1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
-Source: http://acl.bestbits.at/current/tar/acl-%{version}.src.tar.gz
+Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
@@ -108,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Wed Sep 28 2005 Than Ngo <than@redhat.com> 2.2.31-1
+- update to 2.2.31
+
 * Wed Sep 28 2005 Than Ngo <than@redhat.com> 2.2.23-9
 - get rid of *.la files
 - remove duplicate doc files
