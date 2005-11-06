@@ -1,6 +1,6 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.2.31
+Version: 2.2.32
 Release: 1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
@@ -108,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl -f fileslib.rpm
 
 %changelog
+* Sun Nov 06 2005 Florian La Roche <laroche@redhat.com>
+- 2.2.32
+
 * Wed Sep 28 2005 Than Ngo <than@redhat.com> 2.2.31-1
 - update to 2.2.31
 
