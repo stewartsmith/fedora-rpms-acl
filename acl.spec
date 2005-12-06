@@ -1,11 +1,12 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.32
-Release: 1
+Release: 2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
 Patch0: acl-2.2.3-multilib.patch
+Patch1: acl-2.2.32-build.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
@@ -40,6 +41,7 @@ defined in POSIX 1003.1e draft standard 17.
 %prep
 %setup -q
 %patch0 -p1 -b .multilib
+%patch1 -p1 -b .build
 autoconf
 
 %build
@@ -50,46 +52,18 @@ make LIBTOOL="libtool --tag=CC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-DIST_ROOT="$RPM_BUILD_ROOT"
-DIST_INSTALL=`pwd`/install.manifest
-DIST_INSTALL_DEV=`pwd`/install-dev.manifest
-DIST_INSTALL_LIB=`pwd`/install-lib.manifest
-export DIST_ROOT DIST_INSTALL DIST_INSTALL_DEV DIST_INSTALL_LIB
-make install DIST_MANIFEST="$DIST_INSTALL" PKG_DOC_DIR=%{_docdir}/acl-%{version}
-make install-dev DIST_MANIFEST="$DIST_INSTALL_DEV"
-make install-lib DIST_MANIFEST="$DIST_INSTALL_LIB"
+make install DESTDIR=$RPM_BUILD_ROOT
+make install-dev DESTDIR=$RPM_BUILD_ROOT
+make install-lib DESTDIR=$RPM_BUILD_ROOT
 
-# Buahhh, ugly hack, but it works.
-perl -pi -e 's|^f 644|f 755|' $DIST_INSTALL_LIB
-chmod 755 $RPM_BUILD_ROOT/%{_lib}/*
+# get rid of libacl.la
+rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.la
 
-# get rid of *.la files
-rm -f $RPM_BUILD_ROOT/%{_libdir}/*.la
+# create 
+rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.so
+ln -s /%{_lib}/libacl.so $RPM_BUILD_ROOT/%{_libdir}/libacl.so
 
-files()
-{
-	sort | uniq | awk ' 
-$1 == "d" { 
-	    if (match ($6, "/usr/include/acl"))
-		printf ("%%%%dir %%%%attr(%s,%s,%s) %s\n", $2, $3, $4, $5); } 
-$1 == "f" { if (match ($6, "/usr/share/man") || match ($6, "/usr/share/doc/acl"))
-		printf ("%%%%doc ");
-	    if (match ($6, "/usr/share/man"))
-		printf ("%%%%attr(%s,%s,%s) %s*\n", $2, $3, $4, $6);
-	    else
-		printf ("%%%%attr(%s,%s,%s) %s\n", $2, $3, $4, $6); }
-$1 == "l" { if (match ($3, "/usr/share/man") || match ($3, "/usr/share/doc/acl"))
-		printf ("%%%%doc ");
-	    if (match ($3, "/usr/share/man"))
-		printf ("%%%%attr(0777,root,root) %s*\n", $3);
-	    else
-		printf ("%%%%attr(0777,root,root) %s\n", $3); }'
-}
-set +x
-files < "$DIST_INSTALL" > files.rpm
-files < "$DIST_INSTALL_DEV" | grep -v libacl.la > filesdevel.rpm
-files < "$DIST_INSTALL_LIB" > fileslib.rpm
-set -x
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -98,16 +72,34 @@ rm -rf $RPM_BUILD_ROOT
 
 %postun -n libacl -p /sbin/ldconfig
 
-%files -f files.rpm
+%files -f %{name}.lang
 %defattr(-,root,root)
+%{_bindir}/chacl
+%{_bindir}/getfacl
+%{_bindir}/setfacl
+%{_datadir}/doc/acl-%{version}
+%{_mandir}/man1/chacl.1*
+%{_mandir}/man1/getfacl.1*
+%{_mandir}/man1/setfacl.1*
+%{_mandir}/man5/acl.5*
 
-%files -n libacl-devel -f filesdevel.rpm
+%files -n libacl-devel
 %defattr(-,root,root)
-/usr/include/acl
+/%{_lib}/libacl.so
+%{_includedir}/acl
+%{_includedir}/sys/acl.h
+%{_libdir}/libacl.*
+%{_mandir}/man3/acl_*
 
-%files -n libacl -f fileslib.rpm
+%files -n libacl
+%defattr(-,root,root)
+/%{_lib}/libacl.so.*
 
 %changelog
+* Tue Dec  6 2005 Thomas Woerner <twoerner@redhat.com> 2.2.32-2
+- spec file cleanup
+- mark po files as lang specific
+
 * Sun Nov 06 2005 Florian La Roche <laroche@redhat.com>
 - 2.2.32
 
