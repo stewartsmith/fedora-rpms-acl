@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.32
-Release: 2
+Release: 2.1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
@@ -59,9 +59,10 @@ make install-lib DESTDIR=$RPM_BUILD_ROOT
 # get rid of libacl.la
 rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.la
 
-# create 
+# fix links to shared libs and permissions
 rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.so
 ln -s /%{_lib}/libacl.so $RPM_BUILD_ROOT/%{_libdir}/libacl.so
+chmod 0755 $RPM_BUILD_ROOT/%{_lib}/libacl.so.*.*.*
 
 %find_lang %{name}
 
@@ -96,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue Dec  6 2005 Thomas Woerner <twoerner@redhat.com> 2.2.32-2.1
+- fixed permissions of libacl
+
 * Tue Dec  6 2005 Thomas Woerner <twoerner@redhat.com> 2.2.32-2
 - spec file cleanup
 - mark po files as lang specific
