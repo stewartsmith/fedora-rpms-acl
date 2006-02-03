@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.2.32
-Release: 2.1.1
+Version: 2.2.34
+Release: 1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
@@ -10,7 +10,7 @@ Patch1: acl-2.2.32-build.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
-URL: http://acl.bestbits.at/
+URL: http://oss.sgi.com/projects/xfs/
 
 %description
 This package contains the getfacl and setfacl utilities needed for
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Fri Feb  3 2006 Thomas Woerner <twoerner@redhat.com> 2.2.34-1
+- new version 2.2.34
+
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
 
