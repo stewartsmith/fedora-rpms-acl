@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.34
-Release: 1
+Release: 1.1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 2.2.34-1.1
+- rebuilt for new gcc4.1 snapshot and glibc changes
+
 * Fri Feb  3 2006 Thomas Woerner <twoerner@redhat.com> 2.2.34-1
 - new version 2.2.34
 
