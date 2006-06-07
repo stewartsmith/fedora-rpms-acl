@@ -1,7 +1,7 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.34
-Release: 1.2
+Release: 2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
@@ -97,6 +97,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Jun  7 2006 Jeremy Katz <katzj@redhat.com> - 2.2.34-2
+- rebuild for -devel deps
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 2.2.34-1.2
 - bump again for double-long bug on ppc(64)
 
