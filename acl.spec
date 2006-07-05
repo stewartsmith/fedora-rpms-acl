@@ -1,12 +1,13 @@
 Summary: Access control list utilities.
 Name: acl
-Version: 2.2.34
-Release: 2
+Version: 2.2.39
+Release: 1
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
-Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl-%{version}.src.tar.gz
+Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
-Patch1: acl-2.2.32-build.patch
+Patch1: acl-2.2.39-build.patch
+Patch2: acl-2.2.39-path_max.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
@@ -42,6 +43,7 @@ defined in POSIX 1003.1e draft standard 17.
 %setup -q
 %patch0 -p1 -b .multilib
 %patch1 -p1 -b .build
+%patch2 -p1 -b .path_max
 autoconf
 
 %build
@@ -97,6 +99,11 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Jul  5 2006 Thomas Woerner <twoerner@redhat.com> 2.2.39-1
+- new version 2.2.39
+- fixed usage of long UTF-8 filenames (#183181)
+  Thanks to Andrey for the initial patch.
+
 * Wed Jun  7 2006 Jeremy Katz <katzj@redhat.com> - 2.2.34-2
 - rebuild for -devel deps
 
