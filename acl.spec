@@ -1,13 +1,14 @@
 Summary: Access control list utilities.
 Name: acl
 Version: 2.2.39
-Release: 1.1
+Release: 2
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.39-path_max.patch
+Patch3: acl-2.2.39-walk.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
@@ -44,6 +45,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch0 -p1 -b .multilib
 %patch1 -p1 -b .build
 %patch2 -p1 -b .path_max
+%patch3 -p1 -b .walk
 autoconf
 
 %build
@@ -99,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Thu Feb 22 2007 Steve Grubb <sgrubb@redhat.com> 2.2.39-2
+- Apply patch to make order consistent.
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 2.2.39-1.1
 - rebuild
 

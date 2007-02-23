@@ -1,0 +1,154 @@
+--- acl-2.2.39/getfacl/getfacl.c.walk	2006-06-20 08:51:25.000000000 +0200
++++ acl-2.2.39/getfacl/getfacl.c	2007-02-16 18:58:29.000000000 +0100
+@@ -34,7 +34,6 @@
+ #include <dirent.h>
+ #include <libgen.h>
+ #include <getopt.h>
+-#include <ftw.h>
+ #include <locale.h>
+ #include "config.h"
+ #include "user_group.h"
+@@ -70,9 +69,9 @@
+ const char *progname;
+ const char *cmd_line_options;
+ 
+-int opt_recursive;  /* recurse into sub-directories? */
+-int opt_walk_logical;  /* always follow symbolic links */
+-int opt_walk_physical;  /* never follow symbolic links */
++int opt_recursive = 0;  /* recurse into sub-directories? */
++int opt_walk_logical = 0;  /* always follow symbolic links */
++int opt_walk_physical = 0;  /* never follow symbolic links */
+ int opt_print_acl = 0;
+ int opt_print_default_acl = 0;
+ int opt_strip_leading_slash = 1;
+@@ -562,71 +561,84 @@
+ 
+ 
+ static int __errors;
+-int __do_print(const char *file, const struct stat *stat,
+-               int flag, struct FTW *ftw)
++
++int walk_tree(const char *file)
+ {
+-	int saved_errno = errno;
++	static int level = 0;
++	static int link_count = 0;
++	DIR *dir;
++	struct dirent *entry;
++	struct stat buf;
++	char path[FILENAME_MAX+1];
+ 
+ 	/* Process the target of a symbolic link, and traverse the link,
+            only if doing a logical walk, or if the symbolic link was
+            specified on the command line. Always skip symbolic links if
+            doing a physical walk. */
+ 
+-	if (S_ISLNK(stat->st_mode) &&
+-	    (opt_walk_physical || (ftw->level > 0 && !opt_walk_logical)))
++	if (level > 0 && !opt_recursive)
+ 		return 0;
+ 
+-	if (do_print(file, stat))
++	if (lstat(file, &buf) != 0) {
++		fprintf(stderr, "%s: %s: %s\n", progname, xquote(file),
++			strerror(errno));
+ 		__errors++;
+-
+-	if (flag == FTW_DNR && opt_recursive) {
+-		/* Item is a directory which can't be read. */
+-		fprintf(stderr, "%s: %s: %s\n",
+-			progname, file, strerror(saved_errno));
+ 		return 0;
+ 	}
+ 
+-	/* We also get here in non-recursive mode. In that case,
+-	   return something != 0 to abort nftw. */
+-
+-	if (!opt_recursive)
++	if (S_ISLNK(buf.st_mode) && opt_walk_physical)
+ 		return 1;
+ 
+-	return 0;
+-}
+-
+-char *resolve_symlinks(const char *file)
+-{
+-	static char buffer[4096];
+-	char *path = NULL;
+-	ssize_t len;
+-
+-	len = readlink(file, buffer, sizeof(buffer)-1);
+-	if (len < 0) {
+-		if (errno == EINVAL)	/* not a symlink, use given path */
+-			path = (char *)file;
+-	} else {
+-		buffer[len+1] = '\0';
+-		path = buffer;
++	if (S_ISLNK(buf.st_mode) && opt_walk_logical && opt_recursive) {
++		if (stat(file, &buf) != 0) {
++		  fprintf(stderr, "%s: %s: %s\n", progname, xquote(file),
++			  strerror(errno));
++		  __errors++;
++		  return 0;
++		}
++		if (S_ISDIR(buf.st_mode) && link_count < 1) {
++			link_count++;
++			snprintf(path, FILENAME_MAX, "%s/", file);
++			if (walk_tree(path) != 1)
++				return 0;
++			link_count--;
++			return 1;
++		}
+ 	}
+-	return path;
+-}
+-
+-int walk_tree(const char *file)
+-{
+-	const char *p;
+ 
+-	__errors = 0;
+-	if ((p = resolve_symlinks(file)) == NULL) {
+-		fprintf(stderr, "%s: %s: %s\n", progname,
+-			xquote(file), strerror(errno));
+-		__errors++;
+-	} else if (nftw(p, __do_print, 0, opt_walk_logical? 0 : FTW_PHYS) < 0) {
+-		fprintf(stderr, "%s: %s: %s\n", progname, xquote(file),
+-			strerror(errno));
++	if (do_print(file, &buf))
+ 		__errors++;
++
++	if (S_ISDIR(buf.st_mode)) {
++		level++;
++		dir = opendir(file);
++		if (!dir) {
++			fprintf(stderr, "%s: %s: %s\n", progname,
++				xquote(file), strerror(errno));
++			__errors++;
++			return 0;
++		}
++
++		while ((entry = readdir(dir)) != NULL) {
++			if (! strcmp(entry->d_name, ".") || 
++			    ! strcmp(entry->d_name, ".."))
++				continue;
++
++			if (file[strlen(file)-1] == '/')
++				snprintf(path, FILENAME_MAX, "%s%s", file,
++					 entry->d_name);
++			else
++				snprintf(path, FILENAME_MAX, "%s/%s", file,
++					 entry->d_name);
++
++			if (walk_tree(path) != 1)
++				return 0;
++		}
++		closedir(dir);
++		level--;
+ 	}
+-	return __errors;
++
++	return 1;
+ }
+ 
+ int main(int argc, char *argv[])
