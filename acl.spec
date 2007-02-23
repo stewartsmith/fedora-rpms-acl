@@ -1,8 +1,8 @@
-Summary: Access control list utilities.
+Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 2%{?dist}
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+Release: 3%{?dist}
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
@@ -19,10 +19,11 @@ This package contains the getfacl and setfacl utilities needed for
 manipulating access control lists.
 
 %package -n libacl
-Summary: Dynamic library for access control list support.
+Summary: Dynamic library for access control list support
 License: LGPL
 Group: System Environment/Libraries
-Prereq: /sbin/ldconfig
+Requires(post): /sbin/ldconfig
+Requires(postun): /sbin/ldconfig
 
 %description -n libacl
 This package contains the libacl.so dynamic library which contains
@@ -33,7 +34,7 @@ control lists.
 Summary: Access control list static libraries and headers.
 License: LGPL
 Group: Development/Libraries
-Requires: libacl, libattr-devel
+Requires: libacl = %{version}-%{release}, libattr-devel
 
 %description -n libacl-devel
 This package contains static libraries and header files needed to develop
@@ -52,7 +53,7 @@ autoconf
 touch .census
 # acl abuses libexecdir
 %configure --libdir=/%{_lib} --libexecdir=%{_libdir}
-make LIBTOOL="libtool --tag=CC"
+make LIBTOOL="libtool --tag=CC"%{?_smp_mflags}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -65,7 +66,7 @@ rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.la
 
 # fix links to shared libs and permissions
 rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.so
-ln -s /%{_lib}/libacl.so $RPM_BUILD_ROOT/%{_libdir}/libacl.so
+ln -sf ../../%{_lib}/libacl.so $RPM_BUILD_ROOT/%{_libdir}/libacl.so
 chmod 0755 $RPM_BUILD_ROOT/%{_lib}/libacl.so.*.*.*
 
 %find_lang %{name}
@@ -101,6 +102,13 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Fri Feb 23 2007 Karsten Hopp <karsten@redhat.com> 2.2.39-3
+- fix buildroot
+- remove trailing dot from summary
+- -devel requires same version of libacl
+- escape macro in changelog
+- make .so symlink relative
+
 * Thu Feb 22 2007 Steve Grubb <sgrubb@redhat.com> 2.2.39-2
 - Apply patch to make order consistent.
 
@@ -169,7 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 - rebuilt
 
 * Wed Mar 31 2004 Stephen C. Tweedie <sct@redhat.com> 2.2.7-5
-- Add missing %defattr
+- Add missing %%defattr
 
 * Tue Mar 30 2004 Stephen C. Tweedie <sct@redhat.com> 2.2.7-3
 - Add /usr/include/acl to files manifest
