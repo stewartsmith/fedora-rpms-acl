@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 3%{?dist}
+Release: 3.1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
@@ -102,6 +102,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Mar 21 2007 Thomas Woerner <twoerner@redhat.com> 2.2.39-3.1
+- new improved walk patch with fixed getfacl exit code (rhbz#232884)
+
 * Fri Feb 23 2007 Karsten Hopp <karsten@redhat.com> 2.2.39-3
 - fix buildroot
 - remove trailing dot from summary
