@@ -9,6 +9,7 @@ Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.39-path_max.patch
 Patch3: acl-2.2.39-walk.patch
+Patch4: acl-2.2.39-params.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
@@ -47,6 +48,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch1 -p1 -b .build
 %patch2 -p1 -b .path_max
 %patch3 -p1 -b .walk
+%patch4 -p1 -b .params
 autoconf
 
 %build
@@ -102,6 +104,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Jul 25 2007 Jiri Moskovcak <jmoskovc@redhat.com>
+- Added support fort short params to getfacl
+- Resolves: #204087
+
 * Wed Mar 21 2007 Thomas Woerner <twoerner@redhat.com> 2.2.39-3.1
 - new improved walk patch with fixed getfacl exit code (rhbz#232884)
 
