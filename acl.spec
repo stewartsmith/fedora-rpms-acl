@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 3.1%{?dist}
+Release: 4%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
@@ -104,7 +104,7 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
-* Wed Jul 25 2007 Jiri Moskovcak <jmoskovc@redhat.com>
+* Wed Jul 25 2007 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.39-4
 - Added support fort short params to getfacl
 - Resolves: #204087
 
