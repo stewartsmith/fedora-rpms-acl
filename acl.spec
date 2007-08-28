@@ -3,7 +3,7 @@ Name: acl
 Version: 2.2.39
 Release: 5%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: libattr-devel >= 2.4.1
+BuildRequires: libattr-devel >= 2.4.1 nfs-utils-lib-devel
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
