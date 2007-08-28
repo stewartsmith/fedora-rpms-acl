@@ -38,6 +38,7 @@ Summary: Access control list static libraries and headers.
 License: LGPL
 Group: Development/Libraries
 Requires: libacl = %{version}-%{release}, libattr-devel
+Requires: nfs-utils-lib, openldap
 
 %description -n libacl-devel
 This package contains static libraries and header files needed to develop
