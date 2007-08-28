@@ -3,7 +3,8 @@ Name: acl
 Version: 2.2.39
 Release: 5%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: libattr-devel >= 2.4.1 nfs-utils-lib-devel
+BuildRequires: libattr-devel >= 2.4.1, nfs-utils-lib-devel
+BuildRequires: autoconf, libtool >= 1.5, gettext, openldap-devel
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
@@ -12,7 +13,6 @@ Patch3: acl-2.2.39-walk.patch
 Patch4: acl-2.2.39-params.patch
 Patch5: acl-2.2.39-man.patch
 Patch6: acl-2.2.39-nfsv4.patch
-BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
