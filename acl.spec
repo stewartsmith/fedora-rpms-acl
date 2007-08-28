@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 4.1%{?dist}
+Release: 5%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
@@ -11,6 +11,7 @@ Patch2: acl-2.2.39-path_max.patch
 Patch3: acl-2.2.39-walk.patch
 Patch4: acl-2.2.39-params.patch
 Patch5: acl-2.2.39-man.patch
+Patch6: acl-2.2.39-nfsv4.patch
 BuildRequires: autoconf, libtool >= 1.5, gettext
 License: GPL
 Group: System Environment/Base
@@ -51,6 +52,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch3 -p1 -b .walk
 %patch4 -p1 -b .params
 %patch5 -p1 -b .man
+%patch6 -p1 -b .nfsv4
 autoconf
 
 %build
@@ -106,6 +108,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Mon Aug 27 2007 Steve Dickson <steved@redhat.com>  2.2.39-5
+- Added NFS v4 ACL support
+
 * Thu Jul 26 2007 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.39-4.1
 - Updated man page for getfacl
 
