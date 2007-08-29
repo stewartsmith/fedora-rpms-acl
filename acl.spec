@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 5%{?dist}
+Release: 6%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1, nfs-utils-lib-devel
 BuildRequires: autoconf, libtool >= 1.5, gettext, openldap-devel
@@ -109,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2.2.39-6
+- Rebuild for selinux ppc32 issue.
+
 * Mon Aug 27 2007 Steve Dickson <steved@redhat.com>  2.2.39-5
 - Added NFS v4 ACL support
 
