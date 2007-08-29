@@ -1,10 +1,10 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 6%{?dist}
+Release: 7%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1, nfs-utils-lib-devel
-BuildRequires: autoconf, libtool >= 1.5, gettext, openldap-devel
+BuildRequires: autoconf, libtool >= 1.5, gettext, openldap-devel, gawk
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
@@ -109,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2.2.39-7
+- Build Require gawk
+
 * Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2.2.39-6
 - Rebuild for selinux ppc32 issue.
 
