@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 7%{?dist}
+Release: 8%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1, nfs-utils-lib-devel
 BuildRequires: autoconf, libtool >= 1.5, gettext, openldap-devel, gawk
@@ -53,7 +53,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch3 -p1 -b .walk
 %patch4 -p1 -b .params
 %patch5 -p1 -b .man
-%patch6 -p1 -b .nfsv4
+#patch6 -p1 -b .nfsv4
 autoconf
 
 %build
@@ -109,6 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Thu Aug 30 2007 Jeremy Katz <katzj@redhat.com> - 2.2.39-8
+- disable nfs patch; linking libacl against libs in /usr will lead to breakage
+
 * Wed Aug 29 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2.2.39-7
 - Build Require gawk
 
