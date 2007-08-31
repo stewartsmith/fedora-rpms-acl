@@ -1,10 +1,10 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 8%{?dist}
+Release: 9%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: libattr-devel >= 2.4.1, nfs-utils-lib-devel
-BuildRequires: autoconf, libtool >= 1.5, gettext, openldap-devel, gawk
+BuildRequires: libattr-devel >= 2.4.1
+BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
 Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
@@ -12,7 +12,6 @@ Patch2: acl-2.2.39-path_max.patch
 Patch3: acl-2.2.39-walk.patch
 Patch4: acl-2.2.39-params.patch
 Patch5: acl-2.2.39-man.patch
-Patch6: acl-2.2.39-nfsv4.patch
 License: GPL
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -53,7 +52,6 @@ defined in POSIX 1003.1e draft standard 17.
 %patch3 -p1 -b .walk
 %patch4 -p1 -b .params
 %patch5 -p1 -b .man
-#patch6 -p1 -b .nfsv4
 autoconf
 
 %build
@@ -109,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Fri Aug 31 2007 Steve Dickson <steved@redhat.com> - 2.2.39-9
+- Removed NFS4 ACL patch since it was rejected by upstream.
+
 * Thu Aug 30 2007 Jeremy Katz <katzj@redhat.com> - 2.2.39-8
 - disable nfs patch; linking libacl against libs in /usr will lead to breakage
 
