@@ -18,7 +18,7 @@
 +	  bytes for "#file:". Not a good solution but for now it is the 
 +	  best I can do without too much impact on the code. [tw]
 +	*/
-+	char linebuf[PATH_MAX+6];
++	char linebuf[(4*PATH_MAX)+6];
  	char *cp;
  	char *p;
  	int comments_read = 0;

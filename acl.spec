@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.39
-Release: 9%{?dist}
+Release: 10%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -107,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Thu Sep 20 2007 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.39-10
+- Rewriten path_max patch to support long UTF8 names
+- Resolves #287701, #183181
+
 * Fri Aug 31 2007 Steve Dickson <steved@redhat.com> - 2.2.39-9
 - Removed NFS4 ACL patch since it was rejected by upstream.
 
