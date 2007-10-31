@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.39
-Release: 10%{?dist}
+Version: 2.2.45
+Release: 1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -9,9 +9,7 @@ Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.39-path_max.patch
-Patch3: acl-2.2.39-walk.patch
-Patch4: acl-2.2.39-params.patch
-Patch5: acl-2.2.39-man.patch
+Patch3: acl-2.2.39-params.patch
 License: GPL
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -49,9 +47,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch0 -p1 -b .multilib
 %patch1 -p1 -b .build
 %patch2 -p1 -b .path_max
-%patch3 -p1 -b .walk
-%patch4 -p1 -b .params
-%patch5 -p1 -b .man
+%patch3 -p1 -b .params
 autoconf
 
 %build
@@ -107,6 +103,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Oct 31 2007 Jiri Moskovcak <jmoskovc@redhat.com> - 2.2.45-1
+- New version
+- dropped walk patch
+
 * Thu Sep 20 2007 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.39-10
 - Rewriten path_max patch to support long UTF8 names
 - Resolves #287701, #183181
