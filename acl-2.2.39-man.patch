@@ -1,5 +1,3 @@
-Only in acl-2.2.39/getfacl: getfacl.c.params
-diff -urp acl-2.2.39/man/man1/getfacl.1 acl-2.2.39mzk/man/man1/getfacl.1
 --- acl-2.2.39/man/man1/getfacl.1	2007-07-26 15:40:16.000000000 +0200
 +++ acl-2.2.39mzk/man/man1/getfacl.1	2007-07-26 15:42:24.000000000 +0200
 @@ -115,6 +115,9 @@ Use an alternative tabular output format
@@ -12,4 +10,3 @@ diff -urp acl-2.2.39/man/man1/getfacl.1 acl-2.2.39mzk/man/man1/getfacl.1
  .I \-v, \-\-version
  Print the version of getfacl and exit.
  .TP
-Only in acl-2.2.39/man/man1: getfacl.1.params

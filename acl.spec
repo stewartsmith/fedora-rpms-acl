@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.45
-Release: 1%{?dist}
+Release: 2%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -10,6 +10,7 @@ Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.39-path_max.patch
 Patch3: acl-2.2.39-params.patch
+Patch4: acl-2.2.45-exitcode.patch
 License: GPL
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -48,6 +49,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch1 -p1 -b .build
 %patch2 -p1 -b .path_max
 %patch3 -p1 -b .params
+%patch4 -p1 -b .exitcode
 autoconf
 
 %build
@@ -103,6 +105,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Nov  7 2007 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.45-2
+- Fixed setfacl exitcodes
+- Resolves: #368451
+
 * Wed Oct 31 2007 Jiri Moskovcak <jmoskovc@redhat.com> - 2.2.45-1
 - New version
 - dropped walk patch
