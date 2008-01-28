@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.45
-Release: 2%{?dist}
+Release: 3%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -11,6 +11,7 @@ Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.39-path_max.patch
 Patch3: acl-2.2.39-params.patch
 Patch4: acl-2.2.45-exitcode.patch
+Patch5: acl-2.2.39-segfault.patch
 License: GPL
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -50,6 +51,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch2 -p1 -b .path_max
 %patch3 -p1 -b .params
 %patch4 -p1 -b .exitcode
+%patch5 -p1 -b .segfault
 autoconf
 
 %build
@@ -105,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Mon Jan 28 2008 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.45-3
+- Fixed segfault when using only "--" as parameter
+- Resolves: #430458
+
 * Wed Nov  7 2007 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.45-2
 - Fixed setfacl exitcodes
 - Resolves: #368451
