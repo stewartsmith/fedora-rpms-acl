@@ -10,7 +10,7 @@ diff -urp acl-2.2.39/getfacl/getfacl.c acl-2.2.39mzk/getfacl/getfacl.c
  #endif
  #define POSIXLY_CMD_LINE_OPTIONS "d"
  
-@@ -540,18 +540,18 @@ void help(void)
+@@ -554,18 +554,18 @@ void help(void)
  #if !POSIXLY_CORRECT
  	} else {
  		printf(_(
@@ -27,7 +27,7 @@ diff -urp acl-2.2.39/getfacl/getfacl.c acl-2.2.39mzk/getfacl/getfacl.c
 +"  -s, --skip-base         skip files that only have the base entries\n"
  "  -R, --recursive         recurse into subdirectories\n"
  "  -L, --logical           logical walk, follow symbolic links\n"
--"  -P  --physical          physical walk, do not follow symbolic links\n"
+-"  -P, --physical          physical walk, do not follow symbolic links\n"
 -"      --tabular           use tabular output format\n"
 -"      --numeric           print numeric user/group identifiers\n"
 -"      --absolute-names    don't strip leading '/' in pathnames\n"));

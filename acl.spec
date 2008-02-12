@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.45
-Release: 3%{?dist}
+Version: 2.2.47
+Release: 1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -107,6 +107,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue Feb 12 2008 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.47-1
+- new upstream version
+
 * Mon Jan 28 2008 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.45-3
 - Fixed segfault when using only "--" as parameter
 - Resolves: #430458
