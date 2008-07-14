@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.47
-Release: 1%{?dist}
+Release: 2%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -9,10 +9,10 @@ Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.39-path_max.patch
-Patch3: acl-2.2.39-params.patch
+Patch3: acl-2.2.47-params.patch
 Patch4: acl-2.2.45-exitcode.patch
 Patch5: acl-2.2.39-segfault.patch
-License: GPL
+License: GPLv2+
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
 
@@ -22,7 +22,7 @@ manipulating access control lists.
 
 %package -n libacl
 Summary: Dynamic library for access control list support
-License: LGPL
+License: LGPLv2+
 Group: System Environment/Libraries
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
@@ -34,7 +34,7 @@ control lists.
 
 %package -n libacl-devel
 Summary: Access control list static libraries and headers.
-License: LGPL
+License: LGPLv2+
 Group: Development/Libraries
 Requires: libacl = %{version}-%{release}, libattr-devel
 Requires: nfs-utils-lib, openldap
@@ -107,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Mon Jul 14 2008 Tom "spot" Callaway <tcallawa@redhat.com> 2.2.47-2
+- rework params patch to apply with fuzz=0
+- fix license tag
+
 * Tue Feb 12 2008 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.47-1
 - new upstream version
 
