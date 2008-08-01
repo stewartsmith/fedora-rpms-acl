@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.47
-Release: 2%{?dist}
+Release: 3%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
@@ -107,6 +107,10 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Thu Jul 31 2008 Jiri Moskovcak <jmoskovc@redhat.com> 2.2.47-3
+- little improvement to params patch
+- Resolves: #457244
+
 * Mon Jul 14 2008 Tom "spot" Callaway <tcallawa@redhat.com> 2.2.47-2
 - rework params patch to apply with fuzz=0
 - fix license tag

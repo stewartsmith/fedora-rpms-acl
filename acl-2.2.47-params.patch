@@ -1,6 +1,5 @@
-diff -up acl-2.2.47/getfacl/getfacl.c.params acl-2.2.47/getfacl/getfacl.c
---- acl-2.2.47/getfacl/getfacl.c.params	2008-02-06 22:39:57.000000000 -0500
-+++ acl-2.2.47/getfacl/getfacl.c	2008-07-14 12:33:25.000000000 -0400
+--- acl-2.2.47_old/getfacl/getfacl.c	2008-02-07 04:39:57.000000000 +0100
++++ acl-2.2.47/getfacl/getfacl.c	2008-07-31 12:23:10.000000000 +0200
 @@ -43,7 +43,7 @@
  #define POSIXLY_CORRECT_STR "POSIXLY_CORRECT"
  
@@ -10,12 +9,12 @@ diff -up acl-2.2.47/getfacl/getfacl.c.params acl-2.2.47/getfacl/getfacl.c
  #endif
  #define POSIXLY_CMD_LINE_OPTIONS "d"
  
-@@ -555,18 +555,18 @@ void help(void)
+@@ -555,23 +555,23 @@ void help(void)
  #if !POSIXLY_CORRECT
  	} else {
  		printf(_(
 -"      --access            display the file access control list only\n"
-+"  -a,  --access            display the file access control list only\n"
++"  -a,  --access           display the file access control list only\n"
  "  -d, --default           display the default access control list only\n"
 -"      --omit-header       do not display the comment header\n"
 -"      --all-effective     print all effective rights\n"
@@ -37,9 +36,15 @@ diff -up acl-2.2.47/getfacl/getfacl.c.params acl-2.2.47/getfacl/getfacl.c
  	}
  #endif
  	printf(_(
-diff -up acl-2.2.47/man/man1/getfacl.1.params acl-2.2.47/man/man1/getfacl.1
---- acl-2.2.47/man/man1/getfacl.1.params	2008-02-06 22:39:57.000000000 -0500
-+++ acl-2.2.47/man/man1/getfacl.1	2008-07-14 12:40:04.000000000 -0400
+-"      --version           print version and exit\n"
+-"      --help              this help text\n"));
++"  -v, --version           print version and exit\n"
++"  -h, --help              this help text\n"));
+ }
+ 
+ int main(int argc, char *argv[])
+--- acl-2.2.47_old/man/man1/getfacl.1	2008-02-07 04:39:57.000000000 +0100
++++ acl-2.2.47/man/man1/getfacl.1	2008-07-31 11:23:45.000000000 +0200
 @@ -12,10 +12,10 @@ getfacl \- get file access control lists
  .SH SYNOPSIS
  
@@ -106,3 +111,44 @@ diff -up acl-2.2.47/man/man1/getfacl.1.params acl-2.2.47/man/man1/getfacl.1
  Print help explaining the command line options.
  .TP
  .I \-\-
+--- acl-2.2.47_old/man/man1/setfacl.1	2008-02-07 04:39:57.000000000 +0100
++++ acl-2.2.47/man/man1/setfacl.1	2008-07-31 13:53:29.000000000 +0200
+@@ -115,10 +115,10 @@ This also skips symbolic link arguments.
+ Only effective in combination with \-R.
+ This option cannot be mixed with `\-\-restore'.
+ .TP 4
+-.I \-\-version
++.I \-v, \-\-version
+ Print the version of setfacl and exit.
+ .TP 4
+-.I \-\-help
++.I \-h, \-\-help
+ Print help explaining the command line options.
+ .TP 4
+ .I \-\-
+--- acl-2.2.47_old/setfacl/setfacl.c	2008-07-31 11:23:18.000000000 +0200
++++ acl-2.2.47/setfacl/setfacl.c	2008-07-31 12:23:13.000000000 +0200
+@@ -42,10 +42,10 @@ extern int do_set(const char *path_p, co
+ 
+ /* '-' stands for `process non-option arguments in loop' */
+ #if !POSIXLY_CORRECT
+-#  define CMD_LINE_OPTIONS "-:bkndm:M:x:X:RLP"
++#  define CMD_LINE_OPTIONS "-:bkndvhm:M:x:X:RLP"
+ #  define CMD_LINE_SPEC "[-bkndRLP] { -m|-M|-x|-X ... } file ..."
+ #endif
+-#define POSIXLY_CMD_LINE_OPTIONS "-:bkndm:M:x:X:"
++#define POSIXLY_CMD_LINE_OPTIONS "-:bkndvhm:M:x:X:"
+ #define POSIXLY_CMD_LINE_SPEC "[-bknd] {-m|-M|-x|-X ... } file ..."
+ 
+ struct option long_options[] = {
+@@ -265,8 +265,8 @@ void help(void)
+ 	}
+ #endif
+ 	printf(_(
+-"      --version           print version and exit\n"
+-"      --help              this help text\n"));
++"  -v, --version           print version and exit\n"
++"  -h, --help              this help text\n"));
+ }
+ 
+ 
