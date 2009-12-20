@@ -1,17 +1,13 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.47
-Release: 5%{?dist}
+Version: 2.2.49
+Release: 1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
-Source: ftp://oss.sgi.com/projects/xfs/cmd_tars/acl_%{version}-1.tar.gz
+Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
-Patch2: acl-2.2.39-path_max.patch
-Patch3: acl-2.2.47-params.patch
-Patch4: acl-2.2.45-exitcode.patch
-Patch5: acl-2.2.39-segfault.patch
 License: GPLv2+
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -46,12 +42,8 @@ defined in POSIX 1003.1e draft standard 17.
 
 %prep
 %setup -q
-%patch0 -p1 -b .multilib
-%patch1 -p1 -b .build
-%patch2 -p1 -b .path_max
-%patch3 -p1 -b .params
-%patch4 -p1 -b .exitcode
-%patch5 -p1 -b .segfault
+%patch0 -p1
+%patch1 -p1
 autoconf
 
 %build
@@ -84,7 +76,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun -n libacl -p /sbin/ldconfig
 
 %files -f %{name}.lang
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 %{_bindir}/chacl
 %{_bindir}/getfacl
 %{_bindir}/setfacl
@@ -95,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/acl.5*
 
 %files -n libacl-devel
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 /%{_lib}/libacl.so
 %{_includedir}/acl
 %{_includedir}/sys/acl.h
@@ -103,10 +95,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man3/acl_*
 
 %files -n libacl
-%defattr(-,root,root)
+%defattr(-,root,root,-)
 /%{_lib}/libacl.so.*
 
 %changelog
+* Sun Dec 20 2009 Kamil Dudka <kdudka@redhat.com> 2.2.49-1
+- new upstream bugfix release
+- big cleanup in patches
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.47-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 

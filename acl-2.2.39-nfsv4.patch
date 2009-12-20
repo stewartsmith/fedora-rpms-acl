@@ -1,3 +1,5 @@
+NOTE: This patch is not being used any more since 2.2.39-8.
+
 --- /dev/null	2007-08-22 11:21:03.626521839 -0400
 +++ acl-2.2.39/libacl/acl_nfs4_get_who.c	2007-08-22 12:02:13.000000000 -0400
 @@ -0,0 +1,103 @@
