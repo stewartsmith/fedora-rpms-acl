@@ -1,13 +1,14 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 1%{?dist}
+Release: 2%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: libattr-devel >= 2.4.1
 BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
 Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
+Patch2: acl-2.2.49-setfacl-walk.patch
 License: GPLv2+
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -44,6 +45,7 @@ defined in POSIX 1003.1e draft standard 17.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 autoconf
 
 %build
@@ -99,6 +101,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Sat Dec 26 2009 Kamil Dudka <kdudka@redhat.com> 2.2.49-2
+- tweaked setfacl tree walk flags (#488674), thanks to Markus Steinborn
+
 * Sun Dec 20 2009 Kamil Dudka <kdudka@redhat.com> 2.2.49-1
 - new upstream bugfix release
 - big cleanup in patches
