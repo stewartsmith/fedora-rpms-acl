@@ -1,12 +1,13 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 3%{?dist}
+Release: 4%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: libattr-devel >= 2.4.1
-BuildRequires: autoconf, libtool >= 1.5, gettext, gawk
+BuildRequires: gawk
+BuildRequires: gettext
+BuildRequires: libattr-devel
+BuildRequires: libtool
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
-Patch0: acl-2.2.3-multilib.patch
 Patch1: acl-2.2.39-build.patch
 Patch2: acl-2.2.49-setfacl-walk.patch
 Patch3: acl-2.2.49-bz467936.patch
@@ -44,17 +45,15 @@ defined in POSIX 1003.1e draft standard 17.
 
 %prep
 %setup -q
-%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-autoconf
 
 %build
 touch .census
 # acl abuses libexecdir
 %configure --libdir=/%{_lib} --libexecdir=%{_libdir}
-make LIBTOOL="libtool --tag=CC"%{?_smp_mflags}
+make %{?_smp_mflags} LIBTOOL="libtool --tag=CC"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -62,11 +61,14 @@ make install DESTDIR=$RPM_BUILD_ROOT
 make install-dev DESTDIR=$RPM_BUILD_ROOT
 make install-lib DESTDIR=$RPM_BUILD_ROOT
 
-# get rid of libacl.la
-rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.la
+# get rid of libacl.a and libacl.la
+rm -f $RPM_BUILD_ROOT/%{_lib}/libacl.a
+rm -f $RPM_BUILD_ROOT/%{_lib}/libacl.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.la
 
 # fix links to shared libs and permissions
-rm -f $RPM_BUILD_ROOT/%{_libdir}/libacl.so
+rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.so
 ln -sf ../../%{_lib}/libacl.so $RPM_BUILD_ROOT/%{_libdir}/libacl.so
 chmod 0755 $RPM_BUILD_ROOT/%{_lib}/libacl.so.*.*.*
 
@@ -93,9 +95,9 @@ rm -rf $RPM_BUILD_ROOT
 %files -n libacl-devel
 %defattr(-,root,root,-)
 /%{_lib}/libacl.so
+%{_libdir}/libacl.so
 %{_includedir}/acl
 %{_includedir}/sys/acl.h
-%{_libdir}/libacl.*
 %{_mandir}/man3/acl_*
 
 %files -n libacl
@@ -103,6 +105,11 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue Jan 19 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-4
+- do not package a static library (#556036)
+- remove multilib patch no longer useful
+- cleanup in BuildRequires
+
 * Tue Jan 05 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-3
 - upstream patch for setfacl --restore SUID/SGID bits handling (#467936)
 
