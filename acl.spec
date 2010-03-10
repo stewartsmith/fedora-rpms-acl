@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 4%{?dist}
+Release: 5%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -9,8 +9,16 @@ BuildRequires: libattr-devel
 BuildRequires: libtool
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
 Patch1: acl-2.2.39-build.patch
+
+# bz #488674
 Patch2: acl-2.2.49-setfacl-walk.patch
+
+# bz #467936
 Patch3: acl-2.2.49-bz467936.patch
+
+# prepare the test-suite for SELinux and arbitrary umask
+Patch4: acl-2.2.49-tests.patch
+
 License: GPLv2+
 Group: System Environment/Base
 URL: http://oss.sgi.com/projects/xfs/
@@ -48,12 +56,24 @@ defined in POSIX 1003.1e draft standard 17.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 touch .census
 # acl abuses libexecdir
 %configure --libdir=/%{_lib} --libexecdir=%{_libdir}
 make %{?_smp_mflags} LIBTOOL="libtool --tag=CC"
+
+%check
+if ./setfacl/setfacl -m u:`id -u`:rwx .; then
+    make tests || exit $?
+    if test 0 = `id -u`; then
+        make root-tests || exit $?
+    fi
+else
+    echo '*** ACLs are probably not supported by the file system,' \
+         'the test-suite will NOT run ***'
+fi
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -105,6 +125,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Mar 10 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-5
+- run the test-suite if possible
+
 * Tue Jan 19 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-4
 - do not package a static library (#556036)
 - remove multilib patch no longer useful
