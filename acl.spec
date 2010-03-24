@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 5%{?dist}
+Release: 6%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -18,6 +18,9 @@ Patch3: acl-2.2.49-bz467936.patch
 
 # prepare the test-suite for SELinux and arbitrary umask
 Patch4: acl-2.2.49-tests.patch
+
+# bz #576550
+Patch5: acl-2.2.49-setfacl-restore.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -57,11 +60,17 @@ defined in POSIX 1003.1e draft standard 17.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 touch .census
 # acl abuses libexecdir
 %configure --libdir=/%{_lib} --libexecdir=%{_libdir}
+
+# uncomment to turn on optimizations
+# sed -i 's/-O2/-O0/' libtool include/builddefs
+# unset CFLAGS
+
 make %{?_smp_mflags} LIBTOOL="libtool --tag=CC"
 
 %check
@@ -125,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Wed Mar 24 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-6
+- prevent setfacl --restore from SIGSEGV on malformed restore file (#576550)
+
 * Wed Mar 10 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-5
 - run the test-suite if possible
 
