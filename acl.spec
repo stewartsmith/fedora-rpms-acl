@@ -1,12 +1,13 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 6%{?dist}
+Release: 7%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libtool
+Requires: libacl = %{version}-%{release}
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
 Patch1: acl-2.2.39-build.patch
 
@@ -43,7 +44,7 @@ the POSIX 1003.1e draft standard 17 functions for manipulating access
 control lists.
 
 %package -n libacl-devel
-Summary: Access control list static libraries and headers.
+Summary: Access control list static libraries and headers
 License: LGPLv2+
 Group: Development/Libraries
 Requires: libacl = %{version}-%{release}, libattr-devel
@@ -134,6 +135,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue May 25 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-7
+- let acl depend on the same version of libacl (#595674)
+
 * Wed Mar 24 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-6
 - prevent setfacl --restore from SIGSEGV on malformed restore file (#576550)
 
