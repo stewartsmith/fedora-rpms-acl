@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 7%{?dist}
+Release: 8%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -48,7 +48,6 @@ Summary: Access control list static libraries and headers
 License: LGPLv2+
 Group: Development/Libraries
 Requires: libacl = %{version}-%{release}, libattr-devel
-Requires: nfs-utils-lib, openldap
 
 %description -n libacl-devel
 This package contains static libraries and header files needed to develop
@@ -135,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Thu Jul 08 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-8
+- remove dependency of libacl-devel on nfs-utils-lib and openldap
+
 * Tue May 25 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-7
 - let acl depend on the same version of libacl (#595674)
 
