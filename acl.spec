@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 8%{?dist}
+Release: 9%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -134,6 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.49-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Thu Jul 08 2010 Kamil Dudka <kdudka@redhat.com> 2.2.49-8
 - remove dependency of libacl-devel on nfs-utils-lib and openldap
 
