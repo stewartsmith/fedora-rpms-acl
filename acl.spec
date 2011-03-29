@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.49
-Release: 9%{?dist}
+Release: 10%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -22,6 +22,9 @@ Patch4: acl-2.2.49-tests.patch
 
 # bz #576550
 Patch5: acl-2.2.49-setfacl-restore.patch
+
+# fix typos in setfacl(1) man page (#675451)
+Patch6: acl-2.2.49-bz675451.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -61,6 +64,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 %build
 touch .census
@@ -134,6 +138,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue Mar 29 2011 Kamil Dudka <kdudka@redhat.com> 2.2.49-10
+- fix typos in setfacl(1) man page (#675451)
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.49-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
