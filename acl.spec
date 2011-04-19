@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.49
-Release: 11%{?dist}
+Version: 2.2.50
+Release: 1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -9,25 +9,14 @@ BuildRequires: libattr-devel
 BuildRequires: libtool
 Requires: libacl = %{version}-%{release}
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
+Source2: malformed-restore-double-owner.acl
 Patch1: acl-2.2.39-build.patch
-
-# bz #488674
-Patch2: acl-2.2.49-setfacl-walk.patch
-
-# bz #467936
-Patch3: acl-2.2.49-bz467936.patch
 
 # prepare the test-suite for SELinux and arbitrary umask
 Patch4: acl-2.2.49-tests.patch
 
-# bz #576550
-Patch5: acl-2.2.49-setfacl-restore.patch
-
 # fix typos in setfacl(1) man page (#675451)
 Patch6: acl-2.2.49-bz675451.patch
-
-# add function acl_extended_file_nofollow() (#692982)
-Patch7: acl-2.2.49-bz692982.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -63,12 +52,11 @@ defined in POSIX 1003.1e draft standard 17.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
-%patch3 -p1
 %patch4 -p1
-%patch5 -p1
 %patch6 -p1
-%patch7 -p1
+
+# part of the test-suite not packaged upstream
+install -m0644 %{SOURCE2} test/
 
 %build
 touch .census
@@ -142,6 +130,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Tue Apr 19 2011 Kamil Dudka <kdudka@redhat.com> 2.2.50-1
+- new upstream release
+
 * Wed Apr 06 2011 Kamil Dudka <kdudka@redhat.com> 2.2.49-11
 - add function acl_extended_file_nofollow() (#692982)
 
