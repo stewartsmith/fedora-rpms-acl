@@ -1,6 +1,6 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.50
+Version: 2.2.51
 Release: 1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
@@ -9,7 +9,6 @@ BuildRequires: libattr-devel
 BuildRequires: libtool
 Requires: libacl = %{version}-%{release}
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
-Source2: malformed-restore-double-owner.acl
 Patch1: acl-2.2.39-build.patch
 
 # prepare the test-suite for SELinux and arbitrary umask
@@ -54,9 +53,6 @@ defined in POSIX 1003.1e draft standard 17.
 %patch1 -p1
 %patch4 -p1
 %patch6 -p1
-
-# part of the test-suite not packaged upstream
-install -m0644 %{SOURCE2} test/
 
 %build
 touch .census
@@ -130,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Thu Apr 21 2011 Kamil Dudka <kdudka@redhat.com> 2.2.51-1
+- new upstream release
+
 * Tue Apr 19 2011 Kamil Dudka <kdudka@redhat.com> 2.2.50-1
 - new upstream release
 

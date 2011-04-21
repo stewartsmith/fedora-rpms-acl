@@ -26,7 +26,7 @@ diff --git a/test/misc.test b/test/misc.test
 index 7c62c64..e6140da 100644
 --- a/test/misc.test
 +++ b/test/misc.test
-@@ -253,7 +253,7 @@ Add some users and groups
+@@ -254,7 +254,7 @@ Add some users and groups
  Symlink in directory with default ACL?
  	 
  	$ ln -s d d/l
@@ -35,7 +35,7 @@ index 7c62c64..e6140da 100644
  	> lrwxrwxrwx
  
  	$ ls -dl -L d/l | awk '{print $1}'
-@@ -342,7 +342,7 @@ Remove the default ACL
+@@ -343,7 +343,7 @@ Remove the default ACL
  Reset to base entries
  	 
  	$ setfacl -b d
@@ -44,7 +44,7 @@ index 7c62c64..e6140da 100644
  	> drwxr-x---
  
  	$ getfacl --omit-header d
-@@ -354,7 +354,7 @@ Reset to base entries
+@@ -355,7 +355,7 @@ Reset to base entries
  Now, chmod should change the group_obj entry
  	 
  	$ chmod 775 d
