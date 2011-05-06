@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 1%{?dist}
+Release: 2%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -19,7 +19,7 @@ Patch6: acl-2.2.49-bz675451.patch
 
 License: GPLv2+
 Group: System Environment/Base
-URL: http://oss.sgi.com/projects/xfs/
+URL: http://acl.bestbits.at/
 
 %description
 This package contains the getfacl and setfacl utilities needed for
@@ -126,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT
 /%{_lib}/libacl.so.*
 
 %changelog
+* Fri May 06 2011 Kamil Dudka <kdudka@redhat.com> 2.2.51-2
+- update project URL (#699058)
+
 * Thu Apr 21 2011 Kamil Dudka <kdudka@redhat.com> 2.2.51-1
 - new upstream release
 
