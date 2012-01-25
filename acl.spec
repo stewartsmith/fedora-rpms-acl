@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 3%{?dist}
+Release: 4%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -31,6 +31,7 @@ License: LGPLv2+
 Group: System Environment/Libraries
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+#Conflicts: filesystem < 3
 
 %description -n libacl
 This package contains the libacl.so dynamic library which contains
@@ -57,7 +58,7 @@ defined in POSIX 1003.1e draft standard 17.
 %build
 touch .census
 # acl abuses libexecdir
-%configure --libdir=/%{_lib} --libexecdir=%{_libdir}
+%configure --libexecdir=%{_libdir}
 
 # uncomment to turn on optimizations
 # sed -i 's/-O2/-O0/' libtool include/builddefs
@@ -83,15 +84,12 @@ make install-dev DESTDIR=$RPM_BUILD_ROOT
 make install-lib DESTDIR=$RPM_BUILD_ROOT
 
 # get rid of libacl.a and libacl.la
-rm -f $RPM_BUILD_ROOT/%{_lib}/libacl.a
-rm -f $RPM_BUILD_ROOT/%{_lib}/libacl.la
+rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
+rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.la
 
-# fix links to shared libs and permissions
-rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.so
-ln -sf ../../%{_lib}/libacl.so $RPM_BUILD_ROOT/%{_libdir}/libacl.so
-chmod 0755 $RPM_BUILD_ROOT/%{_lib}/libacl.so.*.*.*
+chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 
 %find_lang %{name}
 
@@ -115,7 +113,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libacl-devel
 %defattr(-,root,root,-)
-/%{_lib}/libacl.so
 %{_libdir}/libacl.so
 %{_includedir}/acl
 %{_includedir}/sys/acl.h
@@ -123,9 +120,13 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n libacl
 %defattr(-,root,root,-)
-/%{_lib}/libacl.so.*
+%{_libdir}/libacl.so.*
 
 %changelog
+* Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 2.2.51-4
+- install everything in /usr
+  https://fedoraproject.org/wiki/Features/UsrMove
+
 * Thu Jan 12 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.51-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
