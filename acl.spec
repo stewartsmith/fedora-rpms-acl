@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 4%{?dist}
+Release: 5%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -31,7 +31,7 @@ License: LGPLv2+
 Group: System Environment/Libraries
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
-#Conflicts: filesystem < 3
+Conflicts: filesystem < 3
 
 %description -n libacl
 This package contains the libacl.so dynamic library which contains
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 2.2.51-5
+- add filesystem guard
+
 * Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 2.2.51-4
 - install everything in /usr
   https://fedoraproject.org/wiki/Features/UsrMove
