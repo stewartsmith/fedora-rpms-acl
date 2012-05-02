@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 5%{?dist}
+Release: 6%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -39,13 +39,13 @@ the POSIX 1003.1e draft standard 17 functions for manipulating access
 control lists.
 
 %package -n libacl-devel
-Summary: Access control list static libraries and headers
+Summary: Files needed for building programs with libacl
 License: LGPLv2+
 Group: Development/Libraries
 Requires: libacl = %{version}-%{release}, libattr-devel
 
 %description -n libacl-devel
-This package contains static libraries and header files needed to develop
+This package contains header files and documentation needed to develop
 programs which make use of the access control list programming interface
 defined in POSIX 1003.1e draft standard 17.
 
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed May 02 2012 Kamil Dudka <kdudka@redhat.com> 2.2.51-6
+- do not mention static libraries in the summary of libacl{,-devel} (#817952)
+
 * Wed Jan 25 2012 Harald Hoyer <harald@redhat.com> 2.2.51-5
 - add filesystem guard
 
