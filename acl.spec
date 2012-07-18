@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 6%{?dist}
+Release: 7%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -123,6 +123,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.51-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
 * Wed May 02 2012 Kamil Dudka <kdudka@redhat.com> 2.2.51-6
 - do not mention static libraries in the summary of libacl{,-devel} (#817952)
 
