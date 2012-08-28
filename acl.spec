@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 7%{?dist}
+Release: 8%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -78,7 +78,6 @@ else
 fi
 
 %install
-rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 make install-dev DESTDIR=$RPM_BUILD_ROOT
 make install-lib DESTDIR=$RPM_BUILD_ROOT
@@ -93,15 +92,11 @@ chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 
 %find_lang %{name}
 
-%clean
-rm -rf $RPM_BUILD_ROOT
-
 %post -n libacl -p /sbin/ldconfig
 
 %postun -n libacl -p /sbin/ldconfig
 
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %{_bindir}/chacl
 %{_bindir}/getfacl
 %{_bindir}/setfacl
@@ -112,17 +107,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man5/acl.5*
 
 %files -n libacl-devel
-%defattr(-,root,root,-)
 %{_libdir}/libacl.so
 %{_includedir}/acl
 %{_includedir}/sys/acl.h
 %{_mandir}/man3/acl_*
 
 %files -n libacl
-%defattr(-,root,root,-)
 %{_libdir}/libacl.so.*
 
 %changelog
+* Tue Aug 28 2012 Kamil Dudka <kdudka@redhat.com> 2.2.51-8
+- fix specfile issues reported by the fedora-review script
+
 * Wed Jul 18 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.51-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
