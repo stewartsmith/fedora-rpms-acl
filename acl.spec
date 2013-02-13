@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.51
-Release: 8%{?dist}
+Release: 9%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -116,6 +116,9 @@ chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.51-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Tue Aug 28 2012 Kamil Dudka <kdudka@redhat.com> 2.2.51-8
 - fix specfile issues reported by the fedora-review script
 
