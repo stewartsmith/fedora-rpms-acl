@@ -1,58 +1,14 @@
-diff --git a/test/cp.test b/test/cp.test
-index a888c04..4a75ffd 100644
---- a/test/cp.test
-+++ b/test/cp.test
-@@ -9,7 +9,7 @@ The cp utility should only copy ACLs if `-p' is given.
- 	> -rw-rw-r--+
- 	
- 	$ cp f g
--	$ ls -l g | awk -- '{ print $1 }'
-+	$ ls -l g | awk -- '{ print $1 }' | sed 's/\\.$//'
- 	> -rw-r--r--
- 	
- 	$ rm g
-diff --git a/test/getfacl-recursive.test b/test/getfacl-recursive.test
-index b88c211..a72192e 100644
---- a/test/getfacl-recursive.test
-+++ b/test/getfacl-recursive.test
-@@ -1,5 +1,6 @@
- Tests for proper path recursion
- 
-+	$ umask 022
- 	$ mkdir -p 1/2/3
- 	$ mkdir 1/link
- 	$ touch 1/link/file
-diff --git a/test/misc.test b/test/misc.test
-index 7c62c64..e6140da 100644
---- a/test/misc.test
-+++ b/test/misc.test
-@@ -254,7 +254,7 @@ Add some users and groups
- Symlink in directory with default ACL?
- 	 
- 	$ ln -s d d/l
--	$ ls -dl d/l | awk '{print $1}'
-+	$ ls -dl d/l | awk '{print $1}' | sed 's/\\.$//'
- 	> lrwxrwxrwx
- 
- 	$ ls -dl -L d/l | awk '{print $1}'
-@@ -343,7 +343,7 @@ Remove the default ACL
- Reset to base entries
- 	 
- 	$ setfacl -b d
--	$ ls -dl d | awk '{print $1}'
-+	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//'
- 	> drwxr-x---
- 
- 	$ getfacl --omit-header d
-@@ -355,7 +355,7 @@ Reset to base entries
- Now, chmod should change the group_obj entry
- 	 
- 	$ chmod 775 d
--	$ ls -dl d | awk '{print $1}'
-+	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//'
- 	> drwxrwxr-x
- 	
- 	$ getfacl --omit-header d
+From cfd9ba83811189d9e12c86d32b06b5fd15b5f358 Mon Sep 17 00:00:00 2001
+From: Kamil Dudka <kdudka@redhat.com>
+Date: Mon, 20 May 2013 13:49:34 +0200
+Subject: [PATCH] make the tests ready for SELinux
+
+---
+ test/root/permissions.test |    8 ++++----
+ test/root/restore.test     |    2 +-
+ test/root/setfacl.test     |    2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
 diff --git a/test/root/permissions.test b/test/root/permissions.test
 index afaf5f0..4880bd2 100644
 --- a/test/root/permissions.test
@@ -116,21 +72,6 @@ index 630e9fb..dd7fe08 100644
  	> -rw-r-----
  
  	$ setfacl -m m:- g
-diff --git a/test/sbits-restore.test b/test/sbits-restore.test
-index e5e4fb2..abdb58a 100644
---- a/test/sbits-restore.test
-+++ b/test/sbits-restore.test
-@@ -13,10 +13,10 @@ Ensure setting of SUID/SGID/sticky via --restore works
- 	$ touch d/g
- 	$ touch d/u
- 	$ setfacl --restore d.acl
--	$ ls -dl d | awk '{print $1}'
-+	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//'
- 	> drwxr-xr-t
--	$ ls -dl d/u | awk '{print $1}'
-+	$ ls -dl d/u | awk '{print $1}' | sed 's/\\.$//'
- 	> -rwSr--r--
--	$ ls -dl d/g | awk '{print $1}'
-+	$ ls -dl d/g | awk '{print $1}' | sed 's/\\.$//'
- 	> -rw-r-Sr--
- 	$ rm -Rf d
+-- 
+1.7.1
+

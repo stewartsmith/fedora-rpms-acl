@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.51
-Release: 9%{?dist}
+Version: 2.2.52
+Release: 1%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -9,13 +9,18 @@ BuildRequires: libattr-devel
 BuildRequires: libtool
 Requires: libacl = %{version}-%{release}
 Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
-Patch1: acl-2.2.39-build.patch
+
+# fix a typo in setfacl(1) man page (#675451)
+Patch1: 0001-acl-2.2.49-bz675451.patch
+
+# use pkg version in $(PKG_DOC_DIR)
+Patch2: 0002-acl-2.2.52-docdir.patch
 
 # prepare the test-suite for SELinux and arbitrary umask
-Patch4: acl-2.2.49-tests.patch
+Patch3: 0003-acl-2.2.52-tests.patch
 
-# fix typos in setfacl(1) man page (#675451)
-Patch6: acl-2.2.49-bz675451.patch
+# Install the libraries to the appropriate directory
+Patch4: 0004-acl-2.2.52-libdir.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -52,13 +57,12 @@ defined in POSIX 1003.1e draft standard 17.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
+%patch3 -p1
 %patch4 -p1
-%patch6 -p1
 
 %build
-touch .census
-# acl abuses libexecdir
-%configure --libexecdir=%{_libdir}
+%configure
 
 # uncomment to turn on optimizations
 # sed -i 's/-O2/-O0/' libtool include/builddefs
@@ -83,8 +87,6 @@ make install-dev DESTDIR=$RPM_BUILD_ROOT
 make install-lib DESTDIR=$RPM_BUILD_ROOT
 
 # get rid of libacl.a and libacl.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
-rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
 rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.la
 
@@ -116,6 +118,10 @@ chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Mon May 20 2013 Kamil Dudka <kdudka@redhat.com> 2.2.52-1
+- new upstream release, drop applied patches
+- drop workarounds that are no longer necessary
+
 * Wed Feb 13 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.51-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
