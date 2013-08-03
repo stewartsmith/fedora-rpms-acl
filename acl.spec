@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 1%{?dist}
+Release: 2%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -118,6 +118,9 @@ chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.52-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
 * Mon May 20 2013 Kamil Dudka <kdudka@redhat.com> 2.2.52-1
 - new upstream release, drop applied patches
 - drop workarounds that are no longer necessary
