@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 2%{?dist}
+Release: 3%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -12,9 +12,6 @@ Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.
 
 # fix a typo in setfacl(1) man page (#675451)
 Patch1: 0001-acl-2.2.49-bz675451.patch
-
-# use pkg version in $(PKG_DOC_DIR)
-Patch2: 0002-acl-2.2.52-docdir.patch
 
 # prepare the test-suite for SELinux and arbitrary umask
 Patch3: 0003-acl-2.2.52-tests.patch
@@ -57,7 +54,6 @@ defined in POSIX 1003.1e draft standard 17.
 %prep
 %setup -q
 %patch1 -p1
-%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 
@@ -92,6 +88,9 @@ rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.la
 
 chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 
+# drop already installed documentation, we will use an RPM macro to install it
+rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
+
 %find_lang %{name}
 
 %post -n libacl -p /sbin/ldconfig
@@ -99,10 +98,10 @@ chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 %postun -n libacl -p /sbin/ldconfig
 
 %files -f %{name}.lang
+%doc doc/COPYING*
 %{_bindir}/chacl
 %{_bindir}/getfacl
 %{_bindir}/setfacl
-%{_datadir}/doc/acl-%{version}
 %{_mandir}/man1/chacl.1*
 %{_mandir}/man1/getfacl.1*
 %{_mandir}/man1/setfacl.1*
@@ -118,6 +117,9 @@ chmod 0755 $RPM_BUILD_ROOT/%{_libdir}/libacl.so.*.*.*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Aug 09 2013 Kamil Dudka <kdudka@redhat.com> 2.2.52-3
+- drop a docdir-related patch to fix a packaging failure (#993659)
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.52-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
