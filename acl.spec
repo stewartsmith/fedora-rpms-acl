@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 3%{?dist}
+Release: 4%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -18,6 +18,9 @@ Patch3: 0003-acl-2.2.52-tests.patch
 
 # Install the libraries to the appropriate directory
 Patch4: 0004-acl-2.2.52-libdir.patch
+
+# fix SIGSEGV of getfacl -e on overly long group name
+Patch5: 0005-acl-2.2.52-getfacl-segv.patch
 
 License: GPLv2+
 Group: System Environment/Base
@@ -56,6 +59,7 @@ defined in POSIX 1003.1e draft standard 17.
 %patch1 -p1
 %patch3 -p1
 %patch4 -p1
+%patch5 -p1
 
 %build
 %configure
@@ -117,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Nov 01 2013 Kamil Dudka <kdudka@redhat.com> 2.2.52-4
+- fix SIGSEGV of getfacl -e on overly long group name
+
 * Fri Aug 09 2013 Kamil Dudka <kdudka@redhat.com> 2.2.52-3
 - drop a docdir-related patch to fix a packaging failure (#993659)
 
