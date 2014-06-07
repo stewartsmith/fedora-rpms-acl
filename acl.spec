@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 4%{?dist}
+Release: 5%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -121,6 +121,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.52-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Fri Nov 01 2013 Kamil Dudka <kdudka@redhat.com> 2.2.52-4
 - fix SIGSEGV of getfacl -e on overly long group name
 
