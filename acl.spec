@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 5%{?dist}
+Release: 6%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -102,7 +102,8 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %postun -n libacl -p /sbin/ldconfig
 
 %files -f %{name}.lang
-%doc doc/COPYING*
+%{!?_licensedir:%global license %%doc}
+%license doc/COPYING*
 %{_bindir}/chacl
 %{_bindir}/getfacl
 %{_bindir}/setfacl
@@ -121,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Jul 11 2014 Tom Callaway <spot@fedoraproject.org> - 2.2.52-6
+- tag licenses properly
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.52-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
