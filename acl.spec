@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 9%{?dist}
+Release: 10%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -68,7 +68,7 @@ defined in POSIX 1003.1e draft standard 17.
 # sed -i 's/-O2/-O0/' libtool include/builddefs
 # unset CFLAGS
 
-make %{?_smp_mflags} LIBTOOL="libtool --tag=CC"
+make %{?_smp_mflags}
 
 %check
 if ./setfacl/setfacl -m u:`id -u`:rwx .; then
@@ -122,6 +122,10 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Aug 14 2015 Adam Jackson <ajax@redhat.com> 2.2.52-10
+- Remove bizarre 12 year old libtool invocation workaround that prevented
+  hardened cflags working
+
 * Tue Jun 16 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 2.2.52-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
