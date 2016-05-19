@@ -24,6 +24,9 @@ Patch4: 0004-acl-2.2.52-libdir.patch
 # fix SIGSEGV of getfacl -e on overly long group name
 Patch5: 0005-acl-2.2.52-getfacl-segv.patch
 
+# setfacl.1: document the meaning of '-' in perms (#1337039)
+Patch6: acl-2.2.52-setfacl-man-page.patch
+
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
 
@@ -125,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 %changelog
 * Thu May 18 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-15
+- setfacl.1: document the meaning of '-' in perms (#1337039)
 - avoid failure of %%check when building as root (#1085389)
 - apply patches automatically to ease maintenance
 
