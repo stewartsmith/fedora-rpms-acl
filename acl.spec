@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 14%{?dist}
+Release: 15%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
@@ -71,6 +71,11 @@ make %{?_smp_mflags}
 if ./setfacl/setfacl -m u:`id -u`:rwx .; then
     make tests || exit $?
     if test 0 = `id -u`; then
+        # test/root/permissions.test requires the 'daemon' user to be a member
+        # of the 'bin' group in order not to fail.  Prevent the test from
+        # running if we detect that its requirements are not met (#1085389).
+        id -nG daemon | grep bin >/dev/null || rm -f test/root/permissions.test
+
         make root-tests || exit $?
     fi
 else
@@ -120,6 +125,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 %changelog
 * Thu May 18 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-15
+- avoid failure of %%check when building as root (#1085389)
 - apply patches automatically to ease maintenance
 
 * Wed May 17 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-14
