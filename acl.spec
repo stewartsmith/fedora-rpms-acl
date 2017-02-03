@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 11%{?dist}
+Release: 12%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -24,7 +24,7 @@ Patch5: 0005-acl-2.2.52-getfacl-segv.patch
 
 License: GPLv2+
 Group: System Environment/Base
-URL: http://acl.bestbits.at/
+URL: https://savannah.nongnu.org/projects/acl
 
 %description
 This package contains the getfacl and setfacl utilities needed for
@@ -122,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Feb 03 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-12
+- update project URL (#1418474)
+
 * Wed Feb 03 2016 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-11
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
