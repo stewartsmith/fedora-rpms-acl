@@ -2,7 +2,6 @@ Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
 Release: 14%{?dist}
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
@@ -26,7 +25,6 @@ Patch4: 0004-acl-2.2.52-libdir.patch
 Patch5: 0005-acl-2.2.52-getfacl-segv.patch
 
 License: GPLv2+
-Group: System Environment/Base
 URL: https://savannah.nongnu.org/projects/acl
 
 %description
@@ -127,6 +125,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 %changelog
 * Wed May 17 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-14
+- drop obsolete BuildRoot and Group tags
 - fix spurious acl_check() failure on setfacl --restore (#1451826)
 
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-13
