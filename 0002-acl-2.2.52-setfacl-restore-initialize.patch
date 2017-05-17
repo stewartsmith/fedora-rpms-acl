@@ -1,0 +1,40 @@
+From eb123384d1e4001b62a578ec1df53aa23016aed3 Mon Sep 17 00:00:00 2001
+From: Andreas Gruenbacher <agruenba@redhat.com>
+Date: Fri, 17 Mar 2017 10:17:01 +0100
+Subject: [PATCH] setfacl --restore: Silence valgrind
+
+Valgrind complains that setfacl --restore triggers uninitialized memory
+accesses to cmd->c_tag and cmd->c_perm of CMD_REMOVE_ACL commands in
+do_set (http://savannah.nongnu.org/bugs/?50566).  In this case, the
+uninitialized memory accesses have no effect.  Silence valgrind by
+initializing cmd->c_tag and cmd->c_perm anyway.
+
+Upstream-commit: 33f01b5d5bd98fceee0ba46cdbddb60b36fc650e
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+---
+ setfacl/sequence.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/setfacl/sequence.c b/setfacl/sequence.c
+index a418b23..5ed182e 100644
+--- a/setfacl/sequence.c
++++ b/setfacl/sequence.c
+@@ -29,7 +29,14 @@ cmd_t
+ cmd_init(
+ 	void)
+ {
+-	return (cmd_t)malloc(sizeof(struct cmd_obj));
++	cmd_t cmd;
++
++	cmd = malloc(sizeof(struct cmd_obj));
++	if (cmd) {
++		cmd->c_tag = ACL_UNDEFINED_TAG;
++		cmd->c_perm = 0;
++	}
++	return cmd;
+ }
+ 
+ 
+-- 
+2.9.4
+

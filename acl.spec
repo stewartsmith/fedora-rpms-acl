@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 13%{?dist}
+Release: 14%{?dist}
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gawk
 BuildRequires: gettext
@@ -12,6 +12,9 @@ Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.
 
 # fix a typo in setfacl(1) man page (#675451)
 Patch1: 0001-acl-2.2.49-bz675451.patch
+
+# fix spurious acl_check() failure on setfacl --restore (#1451826)
+Patch2: 0002-acl-2.2.52-setfacl-restore-initialize.patch
 
 # prepare the test-suite for SELinux and arbitrary umask
 Patch3: 0003-acl-2.2.52-tests.patch
@@ -57,6 +60,7 @@ defined in POSIX 1003.1e draft standard 17.
 %prep
 %setup -q
 %patch1 -p1
+%patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
@@ -122,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed May 17 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-14
+- fix spurious acl_check() failure on setfacl --restore (#1451826)
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
