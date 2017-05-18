@@ -56,12 +56,7 @@ programs which make use of the access control list programming interface
 defined in POSIX 1003.1e draft standard 17.
 
 %prep
-%setup -q
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
+%autosetup -p1
 
 %build
 %configure
@@ -124,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Thu May 18 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-15
+- apply patches automatically to ease maintenance
+
 * Wed May 17 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-14
 - drop obsolete BuildRoot and Group tags
 - fix spurious acl_check() failure on setfacl --restore (#1451826)
