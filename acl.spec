@@ -1,13 +1,13 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 15%{?dist}
+Release: 16%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libtool
 Requires: libacl = %{version}-%{release}
-Source: http://download.savannah.gnu.org/releases-noredirect/acl/acl-%{version}.src.tar.gz
+Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.src.tar.gz
 
 # fix a typo in setfacl(1) man page (#675451)
 Patch1: 0001-acl-2.2.49-bz675451.patch
@@ -127,6 +127,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Mon Jul 24 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-16
+- update URL of the upstream source tarball
+
 * Thu May 18 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-15
 - setfacl.1: document the meaning of '-' in perms (#1337039)
 - avoid failure of %%check when building as root (#1085389)
