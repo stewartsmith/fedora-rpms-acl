@@ -25,7 +25,7 @@ Patch4: 0004-acl-2.2.52-libdir.patch
 Patch5: 0005-acl-2.2.52-getfacl-segv.patch
 
 # setfacl.1: document the meaning of '-' in perms (#1337039)
-Patch6: acl-2.2.52-setfacl-man-page.patch
+Patch6: 0006-acl-2.2.52-setfacl-man-page.patch
 
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
