@@ -27,6 +27,9 @@ Patch5: 0005-acl-2.2.52-getfacl-segv.patch
 # setfacl.1: document the meaning of '-' in perms (#1337039)
 Patch6: 0006-acl-2.2.52-setfacl-man-page.patch
 
+# fix test-suite failure with perl-5.26.0 (#1473845)
+Patch7: 0007-acl-2.2.52-tests-perl.patch
+
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
 
@@ -128,6 +131,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 %changelog
 * Mon Jul 24 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-16
+- fix test-suite failure with perl-5.26.0 (#1473845)
 - update URL of the upstream source tarball
 
 * Thu May 18 2017 Kamil Dudka <kdudka@redhat.com> 2.2.52-15

@@ -1,0 +1,31 @@
+From 368f03d8d415854fc2e66ebaf6e014d9c0fada7b Mon Sep 17 00:00:00 2001
+From: Troy Dawson <tdawson@redhat.com>
+Date: Fri, 21 Jul 2017 14:05:47 -0700
+Subject: [PATCH] acl: escape left brace in a regex in test/run
+
+... to fix test-suite failure with perl-5.26.0
+
+Bug: https://bugzilla.redhat.com/1473845
+
+Upstream-commit: f2feb94748bd3c64ed153461afa51aebbd717821
+Signed-off-by: Kamil Dudka <kdudka@redhat.com>
+---
+ test/run | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/test/run b/test/run
+index 2cf52e8..0e499e4 100755
+--- a/test/run
++++ b/test/run
+@@ -70,7 +70,7 @@ for (;;) {
+   if (defined $line) {
+     # Substitute %VAR and %{VAR} with environment variables.
+     $line =~ s[%(\w+)][$ENV{$1}]eg;
+-    $line =~ s[%{(\w+)}][$ENV{$1}]eg;
++    $line =~ s[%\{(\w+)}][$ENV{$1}]eg;
+   }
+   if (defined $line) {
+     if ($line =~ s/^\s*< ?//) {
+-- 
+2.9.4
+
