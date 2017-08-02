@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 17%{?dist}
+Release: 18%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
@@ -130,6 +130,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-18
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
+
 * Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
 
