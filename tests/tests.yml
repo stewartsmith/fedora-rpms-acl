@@ -1,0 +1,13 @@
+---
+# This first play always runs on the local staging system
+- hosts: localhost
+  roles:
+  - role: standard-test-beakerlib
+    tags:
+    - classic
+    - container
+    - atomic
+    tests:
+    - cmd-line-options
+    required_packages:
+    - which         # which package required for cmd-line-options

@@ -1,0 +1,5 @@
+Test Name: cmd-line-options
+Author: Milos Malik <mmalik@redhat.com>
+Location: /CoreOS/acl/Sanity/cmd-line-options
+Short Description: Utilities are tested if they support basic command line options.
+Safe: yes
