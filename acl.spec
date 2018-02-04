@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 18%{?dist}
+Release: 19%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
@@ -41,8 +41,6 @@ manipulating access control lists.
 Summary: Dynamic library for access control list support
 License: LGPLv2+
 Group: System Environment/Libraries
-Requires(post): /sbin/ldconfig
-Requires(postun): /sbin/ldconfig
 Conflicts: filesystem < 3
 
 %description -n libacl
@@ -105,9 +103,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 %find_lang %{name}
 
-%post -n libacl -p /sbin/ldconfig
-
-%postun -n libacl -p /sbin/ldconfig
+%ldconfig_scriptlets -n libacl
 
 %files -f %{name}.lang
 %{!?_licensedir:%global license %%doc}
@@ -130,6 +126,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Sun Feb 04 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 2.2.52-19
+- Switch to %%ldconfig_scriptlets
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-18
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
