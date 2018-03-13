@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.52
-Release: 20%{?dist}
+Release: 21%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
@@ -29,6 +29,9 @@ Patch6: 0006-acl-2.2.52-setfacl-man-page.patch
 
 # fix test-suite failure with perl-5.26.0 (#1473845)
 Patch7: 0007-acl-2.2.52-tests-perl.patch
+
+# update link to POSIX.1e draft in acl(5) man page (#1510527)
+Patch8: 0008-acl-2.2.52-acl5-man-page.patch
 
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
@@ -126,6 +129,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Tue Mar 13 2018 Kamil Dudka <kdudka@redhat.com> 2.2.52-21
+- update link to POSIX.1e draft in acl(5) man page (#1510527)
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.52-20
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
