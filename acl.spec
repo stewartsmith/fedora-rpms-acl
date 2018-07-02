@@ -1,37 +1,13 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.52
-Release: 21%{?dist}
+Version: 2.2.53
+Release: 1%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libtool
 Requires: libacl = %{version}-%{release}
-Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.src.tar.gz
-
-# fix a typo in setfacl(1) man page (#675451)
-Patch1: 0001-acl-2.2.49-bz675451.patch
-
-# fix spurious acl_check() failure on setfacl --restore (#1451826)
-Patch2: 0002-acl-2.2.52-setfacl-restore-initialize.patch
-
-# prepare the test-suite for SELinux and arbitrary umask
-Patch3: 0003-acl-2.2.52-tests.patch
-
-# Install the libraries to the appropriate directory
-Patch4: 0004-acl-2.2.52-libdir.patch
-
-# fix SIGSEGV of getfacl -e on overly long group name
-Patch5: 0005-acl-2.2.52-getfacl-segv.patch
-
-# setfacl.1: document the meaning of '-' in perms (#1337039)
-Patch6: 0006-acl-2.2.52-setfacl-man-page.patch
-
-# fix test-suite failure with perl-5.26.0 (#1473845)
-Patch7: 0007-acl-2.2.52-tests-perl.patch
-
-# update link to POSIX.1e draft in acl(5) man page (#1510527)
-Patch8: 0008-acl-2.2.52-acl5-man-page.patch
+Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
 
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
@@ -75,16 +51,25 @@ defined in POSIX 1003.1e draft standard 17.
 make %{?_smp_mflags}
 
 %check
-if ./setfacl/setfacl -m u:`id -u`:rwx .; then
-    make tests || exit $?
-    if test 0 = `id -u`; then
+if ./setfacl -m "u:$(id -u):rwx" .; then
+    if test 0 = "$(id -u)"; then
         # test/root/permissions.test requires the 'daemon' user to be a member
         # of the 'bin' group in order not to fail.  Prevent the test from
         # running if we detect that its requirements are not met (#1085389).
-        id -nG daemon | grep bin >/dev/null || rm -f test/root/permissions.test
+        if id -nG daemon | { ! grep bin >/dev/null; }; then
+	    sed -e 's|test/root/permissions.test||' \
+	        -i test/Makemodule.am Makefile.in Makefile
+	fi
 
-        make root-tests || exit $?
+	# test/root/setfacl.test fails if 'bin' user cannot access build dir
+	if ! runuser -u bin -- "${PWD}/setfacl" --version; then
+	    sed -e 's|test/root/setfacl.test||' \
+	        -i test/Makemodule.am Makefile.in Makefile
+	fi
     fi
+
+    # run the upstream test-suite
+    make check || exit $?
 else
     echo '*** ACLs are probably not supported by the file system,' \
          'the test-suite will NOT run ***'
@@ -92,8 +77,6 @@ fi
 
 %install
 make install DESTDIR=$RPM_BUILD_ROOT
-make install-dev DESTDIR=$RPM_BUILD_ROOT
-make install-lib DESTDIR=$RPM_BUILD_ROOT
 
 # get rid of libacl.a and libacl.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
@@ -121,6 +104,7 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 
 %files -n libacl-devel
 %{_libdir}/libacl.so
+%{_libdir}/pkgconfig/*.pc
 %{_includedir}/acl
 %{_includedir}/sys/acl.h
 %{_mandir}/man3/acl_*
@@ -129,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Mon Jul 02 2018 Kamil Dudka <kdudka@redhat.com> 2.2.53-1
+- new upstream release
+
 * Tue Mar 13 2018 Kamil Dudka <kdudka@redhat.com> 2.2.52-21
 - update link to POSIX.1e draft in acl(5) man page (#1510527)
 
