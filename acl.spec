@@ -19,7 +19,6 @@ manipulating access control lists.
 %package -n libacl
 Summary: Dynamic library for access control list support
 License: LGPLv2+
-Group: System Environment/Libraries
 Conflicts: filesystem < 3
 
 %description -n libacl
@@ -30,7 +29,6 @@ control lists.
 %package -n libacl-devel
 Summary: Files needed for building programs with libacl
 License: LGPLv2+
-Group: Development/Libraries
 Requires: libacl = %{version}-%{release}, libattr-devel
 
 %description -n libacl-devel
