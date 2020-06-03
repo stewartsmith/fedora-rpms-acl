@@ -3,10 +3,10 @@ Name: acl
 Version: 2.2.53
 Release: 6%{?dist}
 BuildRequires: gawk
+BuildRequires: gcc
 BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libtool
-BuildRequires: gcc
 BuildRequires: perl-FileHandle
 Requires: libacl = %{version}-%{release}
 Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
