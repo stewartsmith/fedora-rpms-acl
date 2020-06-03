@@ -1,11 +1,13 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.53
-Release: 5%{?dist}
+Release: 6%{?dist}
 BuildRequires: gawk
 BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libtool
+BuildRequires: gcc
+BuildRequires: perl-FileHandle
 Requires: libacl = %{version}-%{release}
 Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
 
@@ -46,7 +48,7 @@ defined in POSIX 1003.1e draft standard 17.
 # sed -i 's/-O2/-O0/' libtool include/builddefs
 # unset CFLAGS
 
-make %{?_smp_mflags}
+%make_build
 
 %check
 if ./setfacl -m "u:$(id -u):rwx" .; then
@@ -67,14 +69,14 @@ if ./setfacl -m "u:$(id -u):rwx" .; then
     fi
 
     # run the upstream test-suite
-    make check || exit $?
+    %make_build check || exit $?
 else
     echo '*** ACLs are probably not supported by the file system,' \
          'the test-suite will NOT run ***'
 fi
 
 %install
-make install DESTDIR=$RPM_BUILD_ROOT
+%make_install
 
 # get rid of libacl.a and libacl.la
 rm -f $RPM_BUILD_ROOT%{_libdir}/libacl.a
@@ -111,6 +113,15 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Wed Jun 03 2020 Tom Stellard <tstellar@redhat.com> - 2.2.53-6
+- Spec file cleanups and build fix
+- Add BuildRequires: perl-FileHandle to fix make check
+- Add BuildRequres: gcc [1]
+- Use make_build [2] and make_install[3] macros
+- [1] https://docs.fedoraproject.org/en-US/packaging-guidelines/C_and_C++/#_buildrequires_and_requires
+- [2] https://docs.fedoraproject.org/en-US/packaging-guidelines/#_parallel_make
+- [3] https://docs.fedoraproject.org/en-US/packaging-guidelines/#_why_the_makeinstall_macro_should_not_be_used
+
 * Tue Jan 28 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
