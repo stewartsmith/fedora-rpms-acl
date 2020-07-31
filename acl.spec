@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.53
-Release: 7%{?dist}
+Release: 8%{?dist}
 BuildRequires: gawk
 BuildRequires: gcc
 BuildRequires: gettext
@@ -113,6 +113,10 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Jul 31 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-8
+- Second attempt - Rebuilt for
+  https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
 
