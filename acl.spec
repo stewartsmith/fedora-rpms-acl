@@ -11,6 +11,9 @@ BuildRequires: perl(FileHandle)
 Requires: libacl = %{version}-%{release}
 Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
 
+# avoid permission denied problem with LD_PRELOAD in the test-suite
+Patch1: 0001-acl-2.2.53-test-runwrapper.patch
+
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
 
