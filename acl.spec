@@ -54,6 +54,9 @@ defined in POSIX 1003.1e draft standard 17.
 %make_build
 
 %check
+# make the test-suite use the just built library (instead of the system one)
+export LD_LIBRARY_PATH="${RPM_BUILD_ROOT}%{_libdir}:${LD_LIBRARY_PATH}"
+
 if ./setfacl -m "u:$(id -u):rwx" .; then
     if test 0 = "$(id -u)"; then
         # test/root/permissions.test requires the 'daemon' user to be a member
