@@ -60,15 +60,15 @@ if ./setfacl -m "u:$(id -u):rwx" .; then
         # of the 'bin' group in order not to fail.  Prevent the test from
         # running if we detect that its requirements are not met (#1085389).
         if id -nG daemon | { ! grep bin >/dev/null; }; then
-	    sed -e 's|test/root/permissions.test||' \
-	        -i test/Makemodule.am Makefile.in Makefile
-	fi
+            sed -e 's|test/root/permissions.test||' \
+                -i test/Makemodule.am Makefile.in Makefile
+        fi
 
-	# test/root/setfacl.test fails if 'bin' user cannot access build dir
-	if ! runuser -u bin -- "${PWD}/setfacl" --version; then
-	    sed -e 's|test/root/setfacl.test||' \
-	        -i test/Makemodule.am Makefile.in Makefile
-	fi
+        # test/root/setfacl.test fails if 'bin' user cannot access build dir
+        if ! runuser -u bin -- "${PWD}/setfacl" --version; then
+            sed -e 's|test/root/setfacl.test||' \
+                -i test/Makemodule.am Makefile.in Makefile
+        fi
     fi
 
     # run the upstream test-suite
