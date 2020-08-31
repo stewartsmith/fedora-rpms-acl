@@ -1,0 +1,29 @@
+From c03773259fbe6d3f3355efc8e66990718d5cab54 Mon Sep 17 00:00:00 2001
+From: Kamil Dudka <kdudka@redhat.com>
+Date: Mon, 31 Aug 2020 17:16:34 +0200
+Subject: [PATCH] __acl_create_entry_obj: do not break strict aliasing rules
+
+... to avoid SIGSEGV with link-time optimisation enabled
+
+Bug: https://bugzilla.redhat.com/1873975
+Upstream-report: https://lists.nongnu.org/archive/html/acl-devel/2020-08/msg00000.html
+---
+ libacl/acl_create_entry.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libacl/acl_create_entry.c b/libacl/acl_create_entry.c
+index 2214c1a..8ee72a3 100644
+--- a/libacl/acl_create_entry.c
++++ b/libacl/acl_create_entry.c
+@@ -42,7 +42,7 @@ __acl_create_entry_obj(acl_obj *acl_obj_p)
+ 	entry_obj_p->eprev = acl_obj_p->aprev;
+ 	entry_obj_p->enext = (acl_entry_obj *)acl_obj_p;
+ 	entry_obj_p->eprev->enext = entry_obj_p;
+-	entry_obj_p->enext->eprev = entry_obj_p;
++	acl_obj_p->aprev = entry_obj_p;
+ 	
+ 	entry_obj_p->econtainer = acl_obj_p;
+ 	init_acl_entry_obj(*entry_obj_p);
+-- 
+2.25.4
+
