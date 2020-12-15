@@ -8,6 +8,7 @@ BuildRequires: gettext
 BuildRequires: libattr-devel
 BuildRequires: libtool
 BuildRequires: perl(FileHandle)
+BuildRequires: make
 Requires: libacl = %{version}-%{release}
 Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
 
