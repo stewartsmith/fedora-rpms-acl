@@ -9,7 +9,7 @@ BuildRequires: libattr-devel
 BuildRequires: libtool
 BuildRequires: make
 BuildRequires: perl(FileHandle)
-Requires: libacl = %{version}-%{release}
+Requires: libacl%{?_isa} = %{version}-%{release}
 Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
 
 # avoid permission denied problem with LD_PRELOAD in the test-suite
@@ -38,7 +38,7 @@ control lists.
 %package -n libacl-devel
 Summary: Files needed for building programs with libacl
 License: LGPLv2+
-Requires: libacl = %{version}-%{release}, libattr-devel
+Requires: libacl%{?_isa} = %{version}-%{release}, libattr-devel
 
 %description -n libacl-devel
 This package contains header files and documentation needed to develop
@@ -102,7 +102,6 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %ldconfig_scriptlets -n libacl
 
 %files -f %{name}.lang
-%{!?_licensedir:%global license %%doc}
 %license doc/COPYING*
 %{_bindir}/chacl
 %{_bindir}/getfacl
