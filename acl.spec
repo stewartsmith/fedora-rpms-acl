@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
 Version: 2.2.53
-Release: 9%{?dist}
+Release: 10%{?dist}
 BuildRequires: gawk
 BuildRequires: gcc
 BuildRequires: gettext
@@ -122,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Mon Jan 25 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
+
 * Mon Aug 31 2020 Kamil Dudka <kdudka@redhat.com> 2.2.53-9
 - make __acl_create_entry_obj() work with LTO enabled (#1873975)
 
