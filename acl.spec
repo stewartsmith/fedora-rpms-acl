@@ -1,7 +1,7 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.2.53
-Release: 10%{?dist}
+Version: 2.3.0
+Release: 1%{?dist}
 BuildRequires: gawk
 BuildRequires: gcc
 BuildRequires: gettext
@@ -14,9 +14,6 @@ Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar
 
 # avoid permission denied problem with LD_PRELOAD in the test-suite
 Patch1: 0001-acl-2.2.53-test-runwrapper.patch
-
-# make __acl_create_entry_obj() work with LTO enabled (#1873975)
-Patch2: 0002-acl-2.2.53-setattr-segv.patch
 
 License: GPLv2+
 URL: https://savannah.nongnu.org/projects/acl
@@ -122,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Fri Mar 12 2021 Kamil Dudka <kdudka@redhat.com> - 2.3.0-1
+- new upstream release
+
 * Mon Jan 25 2021 Fedora Release Engineering <releng@fedoraproject.org> - 2.2.53-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
