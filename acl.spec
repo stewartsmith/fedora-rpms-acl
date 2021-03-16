@@ -1,6 +1,6 @@
 Summary: Access control list utilities
 Name: acl
-Version: 2.3.0
+Version: 2.3.1
 Release: 1%{?dist}
 BuildRequires: gawk
 BuildRequires: gcc
@@ -119,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT%{_docdir}/%{name}*
 %{_libdir}/libacl.so.*
 
 %changelog
+* Tue Mar 16 2021 Kamil Dudka <kdudka@redhat.com> - 2.3.1-1
+- new upstream release
+
 * Fri Mar 12 2021 Kamil Dudka <kdudka@redhat.com> - 2.3.0-1
 - new upstream release
 
