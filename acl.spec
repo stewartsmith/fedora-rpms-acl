@@ -9,8 +9,12 @@ BuildRequires: libattr-devel
 BuildRequires: libtool
 BuildRequires: make
 BuildRequires: perl(FileHandle)
+BuildRequires: gnupg2
 Requires: libacl%{?_isa} = %{version}-%{release}
-Source: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
+Source0: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz
+Source1: https://download-mirror.savannah.gnu.org/releases/acl/acl-%{version}.tar.gz.sig
+# Retreived from https://savannah.nongnu.org/people/viewgpg.php?user_id=15000
+Source2: agruen-key.gpg
 
 # avoid permission denied problem with LD_PRELOAD in the test-suite
 Patch1: 0001-acl-2.2.53-test-runwrapper.patch
@@ -43,6 +47,7 @@ programs which make use of the access control list programming interface
 defined in POSIX 1003.1e draft standard 17.
 
 %prep
+%{gpgverify} --keyring='%{SOURCE2}' --signature='%{SOURCE1}' --data='%{SOURCE0}'
 %autosetup -p1
 
 %build
